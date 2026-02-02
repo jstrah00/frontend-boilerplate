@@ -1,0 +1,15 @@
+node_modules
+.git
+.gitignore
+.env
+.env.local
+.env.*.local
+dist
+coverage
+*.log
+.DS_Store
+.vscode
+.idea
+README.md
+.prettierrc
+.eslintrc.cjs

@@ -1,0 +1,250 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "search": "Search",
+    "filter": "Filter",
+    "actions": "Actions",
+    "yes": "Yes",
+    "no": "No",
+    "confirm": "Confirm",
+    "unknown": "Unknown"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot password?",
+    "loginSuccess": "Login successful",
+    "loginError": "Invalid credentials",
+    "logoutSuccess": "Logout successful",
+    "loginDescription": "Enter your credentials to access your account"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "items": "Items",
+    "users": "Users",
+    "profile": "Profile",
+    "settings": "Settings"
+  },
+  "dashboard": {
+    "welcome": "Welcome to your dashboard",
+    "totalUsers": "Total Users",
+    "totalUsersDescription": "Active users in the system",
+    "totalItems": "Total Items",
+    "totalItemsDescription": "Items in inventory",
+    "activeSessions": "Active Sessions",
+    "activeSessionsDescription": "Current active sessions",
+    "performance": "Performance",
+    "performanceDescription": "System performance"
+  },
+  "users": {
+    "title": "Users",
+    "management": "User Management",
+    "description": "Manage users and their permissions",
+    "addUser": "Add User",
+    "createUser": "Create User",
+    "editUser": "Edit User",
+    "deleteUser": "Delete User",
+    "errorLoading": "Error loading users",
+    "noUsersFound": "No users found",
+    "createFirstUser": "Create your first user to get started.",
+    "searchPlaceholder": "Search by email or name...",
+    "form": {
+      "title": "User Information",
+      "createTitle": "Create User",
+      "editTitle": "Edit User",
+      "createDescription": "Add a new user to your organization.",
+      "updateDescription": "Update user information.",
+      "email": "Email",
+      "emailPlaceholder": "user@example.com",
+      "firstName": "First Name",
+      "firstNamePlaceholder": "John",
+      "lastName": "Last Name",
+      "lastNamePlaceholder": "Doe",
+      "password": "Password",
+      "passwordPlaceholder": "••••••••",
+      "role": "Role",
+      "rolePlaceholder": "Select a role",
+      "status": "Status",
+      "statusPlaceholder": "Select a status"
+    },
+    "table": {
+      "fullName": "Name",
+      "email": "Email",
+      "role": "Role",
+      "status": "Status",
+      "createdAt": "Created At",
+      "actions": "Actions"
+    },
+    "filters": {
+      "filterByRole": "Filter by role",
+      "allRoles": "All Roles",
+      "admin": "Admin",
+      "user": "User",
+      "filterByStatus": "Filter by status",
+      "allStatuses": "All Statuses",
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "changePassword": "Change Password",
+      "cancel": "Cancel",
+      "create": "Create",
+      "update": "Update",
+      "saving": "Saving...",
+      "deleting": "Deleting...",
+      "changing": "Changing..."
+    },
+    "changePassword": {
+      "title": "Change Password",
+      "description": "Update password for <strong>{{name}}</strong>",
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm New Password",
+      "placeholder": "••••••••"
+    },
+    "deleteConfirm": {
+      "title": "Are you sure?",
+      "description": "This will delete the user <strong>{{name}}</strong> ({{email}}). This action cannot be undone."
+    },
+    "toast": {
+      "createSuccess": "User created successfully",
+      "createError": "Failed to create user",
+      "updateSuccess": "User updated successfully",
+      "updateError": "Failed to update user",
+      "deleteSuccess": "User deleted successfully",
+      "deleteError": "Failed to delete user",
+      "passwordChangeSuccess": "Password changed successfully",
+      "passwordChangeError": "Failed to change password"
+    }
+  },
+  "items": {
+    "title": "Items",
+    "management": "Items Management",
+    "description": "Manage your items and collections",
+    "addItem": "Add Item",
+    "createItem": "Create Item",
+    "editItem": "Edit Item",
+    "deleteItem": "Delete Item",
+    "errorLoading": "Error loading items",
+    "noItemsFound": "No items found",
+    "createFirstItem": "Create your first item to get started.",
+    "searchPlaceholder": "Search by title or description...",
+    "form": {
+      "title": "Title",
+      "titlePlaceholder": "Enter item title",
+      "description": "Description",
+      "descriptionPlaceholder": "Enter item description (optional)",
+      "updateDescription": "Update item information.",
+      "createDescription": "Add a new item to your collection."
+    },
+    "table": {
+      "title": "Title",
+      "description": "Description",
+      "owner": "Owner",
+      "status": "Status",
+      "createdAt": "Created At",
+      "actions": "Actions"
+    },
+    "filters": {
+      "filterByStatus": "Filter by status",
+      "allStatuses": "All Statuses",
+      "active": "Active",
+      "archived": "Archived"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "cancel": "Cancel",
+      "create": "Create",
+      "update": "Update",
+      "saving": "Saving...",
+      "deleting": "Deleting..."
+    },
+    "deleteConfirm": {
+      "title": "Are you sure?",
+      "description": "This will delete the item permanently. This action cannot be undone."
+    },
+    "toast": {
+      "createSuccess": "Item created successfully",
+      "createError": "Failed to create item",
+      "updateSuccess": "Item updated successfully",
+      "updateError": "Failed to update item",
+      "deleteSuccess": "Item deleted successfully",
+      "deleteError": "Failed to delete item"
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "subtitle": "Manage your account settings and preferences",
+    "unableToLoad": "Unable to load profile information",
+    "tabs": {
+      "personal": "Personal Information",
+      "security": "Security"
+    },
+    "overview": {
+      "title": "Profile Overview",
+      "description": "Your account information",
+      "memberSince": "Member Since",
+      "lastUpdated": "Last Updated"
+    },
+    "form": {
+      "title": "Personal Information",
+      "description": "Update your personal details",
+      "email": "Email",
+      "emailCannotChange": "Email cannot be changed",
+      "firstName": "First Name",
+      "firstNamePlaceholder": "John",
+      "lastName": "Last Name",
+      "lastNamePlaceholder": "Doe",
+      "role": "Role",
+      "status": "Status",
+      "saving": "Saving...",
+      "saveChanges": "Save Changes"
+    },
+    "password": {
+      "title": "Change Password",
+      "description": "Update your password to keep your account secure",
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm New Password",
+      "placeholder": "••••••••",
+      "changing": "Changing...",
+      "changeButton": "Change Password"
+    },
+    "toast": {
+      "profileUpdated": "Profile updated successfully",
+      "profileUpdateFailed": "Failed to update profile",
+      "passwordChanged": "Password changed successfully",
+      "passwordChangeFailed": "Failed to change password"
+    }
+  },
+  "errors": {
+    "unauthorized": "Unauthorized",
+    "forbidden": "Forbidden",
+    "notFound": "Not Found",
+    "serverError": "Server Error",
+    "goBack": "Go Back",
+    "goHome": "Go Home",
+    "pageNotFound": "The page you are looking for does not exist.",
+    "noPermission": "You do not have permission to access this resource.",
+    "unknownError": "Unknown error"
+  },
+  "pagination": {
+    "rowsPerPage": "Rows per page"
+  },
+  "ui": {
+    "openMenu": "Open menu"
+  }
+}

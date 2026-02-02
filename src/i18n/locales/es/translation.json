@@ -1,0 +1,250 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "create": "Crear",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "actions": "Acciones",
+    "yes": "Sí",
+    "no": "No",
+    "confirm": "Confirmar",
+    "unknown": "Desconocido"
+  },
+  "auth": {
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "rememberMe": "Recuérdame",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "loginSuccess": "Inicio de sesión exitoso",
+    "loginError": "Credenciales inválidas",
+    "logoutSuccess": "Cierre de sesión exitoso",
+    "loginDescription": "Ingresa tus credenciales para acceder a tu cuenta"
+  },
+  "navigation": {
+    "dashboard": "Panel",
+    "items": "Artículos",
+    "users": "Usuarios",
+    "profile": "Perfil",
+    "settings": "Configuración"
+  },
+  "dashboard": {
+    "welcome": "Bienvenido a tu panel",
+    "totalUsers": "Total de Usuarios",
+    "totalUsersDescription": "Usuarios activos en el sistema",
+    "totalItems": "Total de Artículos",
+    "totalItemsDescription": "Artículos en inventario",
+    "activeSessions": "Sesiones Activas",
+    "activeSessionsDescription": "Sesiones activas actuales",
+    "performance": "Rendimiento",
+    "performanceDescription": "Rendimiento del sistema"
+  },
+  "users": {
+    "title": "Usuarios",
+    "management": "Gestión de Usuarios",
+    "description": "Administra usuarios y sus permisos",
+    "addUser": "Agregar Usuario",
+    "createUser": "Crear Usuario",
+    "editUser": "Editar Usuario",
+    "deleteUser": "Eliminar Usuario",
+    "errorLoading": "Error al cargar usuarios",
+    "noUsersFound": "No se encontraron usuarios",
+    "createFirstUser": "Crea tu primer usuario para comenzar.",
+    "searchPlaceholder": "Buscar por email o nombre...",
+    "form": {
+      "title": "Información del Usuario",
+      "createTitle": "Crear Usuario",
+      "editTitle": "Editar Usuario",
+      "createDescription": "Agrega un nuevo usuario a tu organización.",
+      "updateDescription": "Actualiza la información del usuario.",
+      "email": "Correo Electrónico",
+      "emailPlaceholder": "usuario@ejemplo.com",
+      "firstName": "Nombre",
+      "firstNamePlaceholder": "Juan",
+      "lastName": "Apellido",
+      "lastNamePlaceholder": "Pérez",
+      "password": "Contraseña",
+      "passwordPlaceholder": "••••••••",
+      "role": "Rol",
+      "rolePlaceholder": "Selecciona un rol",
+      "status": "Estado",
+      "statusPlaceholder": "Selecciona un estado"
+    },
+    "table": {
+      "fullName": "Nombre",
+      "email": "Correo Electrónico",
+      "role": "Rol",
+      "status": "Estado",
+      "createdAt": "Fecha de Creación",
+      "actions": "Acciones"
+    },
+    "filters": {
+      "filterByRole": "Filtrar por rol",
+      "allRoles": "Todos los Roles",
+      "admin": "Administrador",
+      "user": "Usuario",
+      "filterByStatus": "Filtrar por estado",
+      "allStatuses": "Todos los Estados",
+      "active": "Activo",
+      "inactive": "Inactivo"
+    },
+    "actions": {
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "changePassword": "Cambiar Contraseña",
+      "cancel": "Cancelar",
+      "create": "Crear",
+      "update": "Actualizar",
+      "saving": "Guardando...",
+      "deleting": "Eliminando...",
+      "changing": "Cambiando..."
+    },
+    "changePassword": {
+      "title": "Cambiar Contraseña",
+      "description": "Actualizar contraseña para <strong>{{name}}</strong>",
+      "currentPassword": "Contraseña Actual",
+      "newPassword": "Nueva Contraseña",
+      "confirmPassword": "Confirmar Nueva Contraseña",
+      "placeholder": "••••••••"
+    },
+    "deleteConfirm": {
+      "title": "¿Estás seguro?",
+      "description": "Esto eliminará al usuario <strong>{{name}}</strong> ({{email}}). Esta acción no se puede deshacer."
+    },
+    "toast": {
+      "createSuccess": "Usuario creado exitosamente",
+      "createError": "Error al crear usuario",
+      "updateSuccess": "Usuario actualizado exitosamente",
+      "updateError": "Error al actualizar usuario",
+      "deleteSuccess": "Usuario eliminado exitosamente",
+      "deleteError": "Error al eliminar usuario",
+      "passwordChangeSuccess": "Contraseña cambiada exitosamente",
+      "passwordChangeError": "Error al cambiar la contraseña"
+    }
+  },
+  "items": {
+    "title": "Artículos",
+    "management": "Gestión de Artículos",
+    "description": "Administra tus artículos y colecciones",
+    "addItem": "Agregar Artículo",
+    "createItem": "Crear Artículo",
+    "editItem": "Editar Artículo",
+    "deleteItem": "Eliminar Artículo",
+    "errorLoading": "Error al cargar artículos",
+    "noItemsFound": "No se encontraron artículos",
+    "createFirstItem": "Crea tu primer artículo para comenzar.",
+    "searchPlaceholder": "Buscar por título o descripción...",
+    "form": {
+      "title": "Título",
+      "titlePlaceholder": "Ingresa el título del artículo",
+      "description": "Descripción",
+      "descriptionPlaceholder": "Ingresa la descripción del artículo (opcional)",
+      "updateDescription": "Actualiza la información del artículo.",
+      "createDescription": "Agrega un nuevo artículo a tu colección."
+    },
+    "table": {
+      "title": "Título",
+      "description": "Descripción",
+      "owner": "Propietario",
+      "status": "Estado",
+      "createdAt": "Fecha de Creación",
+      "actions": "Acciones"
+    },
+    "filters": {
+      "filterByStatus": "Filtrar por estado",
+      "allStatuses": "Todos los Estados",
+      "active": "Activo",
+      "archived": "Archivado"
+    },
+    "actions": {
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "cancel": "Cancelar",
+      "create": "Crear",
+      "update": "Actualizar",
+      "saving": "Guardando...",
+      "deleting": "Eliminando..."
+    },
+    "deleteConfirm": {
+      "title": "¿Estás seguro?",
+      "description": "Esto eliminará el artículo permanentemente. Esta acción no se puede deshacer."
+    },
+    "toast": {
+      "createSuccess": "Artículo creado exitosamente",
+      "createError": "Error al crear artículo",
+      "updateSuccess": "Artículo actualizado exitosamente",
+      "updateError": "Error al actualizar artículo",
+      "deleteSuccess": "Artículo eliminado exitosamente",
+      "deleteError": "Error al eliminar artículo"
+    }
+  },
+  "profile": {
+    "title": "Perfil",
+    "subtitle": "Administra la configuración y preferencias de tu cuenta",
+    "unableToLoad": "No se pudo cargar la información del perfil",
+    "tabs": {
+      "personal": "Información Personal",
+      "security": "Seguridad"
+    },
+    "overview": {
+      "title": "Resumen del Perfil",
+      "description": "Información de tu cuenta",
+      "memberSince": "Miembro Desde",
+      "lastUpdated": "Última Actualización"
+    },
+    "form": {
+      "title": "Información Personal",
+      "description": "Actualiza tus datos personales",
+      "email": "Correo Electrónico",
+      "emailCannotChange": "El correo electrónico no se puede cambiar",
+      "firstName": "Nombre",
+      "firstNamePlaceholder": "Juan",
+      "lastName": "Apellido",
+      "lastNamePlaceholder": "Pérez",
+      "role": "Rol",
+      "status": "Estado",
+      "saving": "Guardando...",
+      "saveChanges": "Guardar Cambios"
+    },
+    "password": {
+      "title": "Cambiar Contraseña",
+      "description": "Actualiza tu contraseña para mantener tu cuenta segura",
+      "currentPassword": "Contraseña Actual",
+      "newPassword": "Nueva Contraseña",
+      "confirmPassword": "Confirmar Nueva Contraseña",
+      "placeholder": "••••••••",
+      "changing": "Cambiando...",
+      "changeButton": "Cambiar Contraseña"
+    },
+    "toast": {
+      "profileUpdated": "Perfil actualizado exitosamente",
+      "profileUpdateFailed": "Error al actualizar el perfil",
+      "passwordChanged": "Contraseña cambiada exitosamente",
+      "passwordChangeFailed": "Error al cambiar la contraseña"
+    }
+  },
+  "errors": {
+    "unauthorized": "No autorizado",
+    "forbidden": "Prohibido",
+    "notFound": "No encontrado",
+    "serverError": "Error del servidor",
+    "goBack": "Volver",
+    "goHome": "Ir al inicio",
+    "pageNotFound": "La página que buscas no existe.",
+    "noPermission": "No tienes permiso para acceder a este recurso.",
+    "unknownError": "Error desconocido"
+  },
+  "pagination": {
+    "rowsPerPage": "Filas por página"
+  },
+  "ui": {
+    "openMenu": "Abrir menú"
+  }
+}
