@@ -42,11 +42,11 @@ export function ProfileCard({ profile }: ProfileCardProps) {
         <div className="grid gap-3 sm:gap-4">
           <div>
             <p className="text-xs sm:text-sm font-medium text-muted-foreground">{t('profile.overview.memberSince')}</p>
-            <p className="text-xs sm:text-sm">{formatDateLong(profile.created_at)}</p>
+            <p className="text-xs sm:text-sm">{profile.created_at ? formatDateLong(profile.created_at) : '-'}</p>
           </div>
           <div>
             <p className="text-xs sm:text-sm font-medium text-muted-foreground">{t('profile.overview.lastUpdated')}</p>
-            <p className="text-xs sm:text-sm">{formatDateLong(profile.updated_at)}</p>
+            <p className="text-xs sm:text-sm">{profile.updated_at ? formatDateLong(profile.updated_at) : '-'}</p>
           </div>
         </div>
       </CardContent>

@@ -1,30 +1,9 @@
-import { apiClient } from "@/api/client"
-import { API_ENDPOINTS } from "@/api/endpoints"
-import { UserCreateInput, UserUpdateInput, PasswordChangeInput } from "../schemas"
+import { apiClient } from '@/api/client'
+import { API_ENDPOINTS } from '@/api/endpoints'
+import { UserCreateInput, UserUpdateInput, PasswordChangeInput } from '../schemas'
+import type { User, UsersListResponse, UsersListParams } from '@/types/models'
 
-export interface User {
-  id: string
-  email: string
-  first_name: string
-  last_name: string
-  role: "admin" | "user"
-  status: "active" | "inactive"
-  created_at: string
-  updated_at: string
-  permissions?: string[]
-}
-
-export interface UsersListResponse {
-  users: User[]
-  total: number
-  skip: number
-  limit: number
-}
-
-export interface UsersListParams {
-  skip?: number
-  limit?: number
-}
+export type { User, UsersListResponse, UsersListParams }
 
 export const usersApi = {
   getUsers: async (params: UsersListParams = {}): Promise<UsersListResponse> => {

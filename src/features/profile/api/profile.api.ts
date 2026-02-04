@@ -1,19 +1,10 @@
-import { apiClient } from "@/api/client"
-import { API_ENDPOINTS } from "@/api/endpoints"
-import { useStore } from "@/store"
-import { ProfileUpdateInput, PasswordChangeInput } from "../schemas"
+import { apiClient } from '@/api/client'
+import { API_ENDPOINTS } from '@/api/endpoints'
+import { useStore } from '@/store'
+import { ProfileUpdateInput, PasswordChangeInput } from '../schemas'
+import type { UserProfile } from '@/types/models'
 
-export interface UserProfile {
-  id: string
-  email: string
-  first_name: string
-  last_name: string
-  role: "admin" | "user"
-  status: "active" | "inactive"
-  created_at: string
-  updated_at: string
-  permissions?: string[]
-}
+export type { UserProfile }
 
 export const profileApi = {
   getProfile: async (): Promise<UserProfile> => {

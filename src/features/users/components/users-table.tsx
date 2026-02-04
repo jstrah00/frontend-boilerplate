@@ -111,7 +111,7 @@ export const UsersTable = memo(function UsersTable({
       header: () => <span className="hidden lg:inline">{t('users.table.createdAt')}</span>,
       cell: ({ row }) => (
         <span className="hidden lg:inline whitespace-nowrap">
-          {formatDate(row.original.created_at)}
+          {row.original.created_at ? formatDate(row.original.created_at) : '-'}
         </span>
       ),
     },

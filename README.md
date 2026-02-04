@@ -27,6 +27,19 @@ A production-ready React + TypeScript + Vite frontend boilerplate integrated wit
 - Global error handling and toast notifications
 - Production-ready Docker configuration
 
+## Claude Code Integration
+
+This boilerplate is optimized for [Claude Code](https://claude.ai/claude-code). The `CLAUDE.md` file provides Claude with project context, patterns, and conventions to assist effectively with development tasks.
+
+**Available Skills** (`.claude/skills/`):
+- `react-component` - Create feature-specific React components
+- `react-form` - Create forms with react-hook-form + Zod validation
+- `api-integration` - Create API functions + React Query hooks
+- `react-feature` - Create complete CRUD feature structure
+- `react-page` - Create page components with routing configuration
+
+For detailed patterns and workflows, see `docs/prompts/frontend-patterns.md` and `docs/FEATURE_WORKFLOW.md`.
+
 ## Quick Start
 
 ### Prerequisites
@@ -74,30 +87,30 @@ The application will be available at `http://localhost:5173`
 ```
 src/
 ├── api/                    # API client and configuration
-│   ├── client.ts          # Axios instance
+│   ├── client.ts          # Axios instance with baseURL
 │   ├── endpoints.ts       # API endpoint constants
-│   └── interceptors.ts    # Request/response interceptors
+│   └── interceptors.ts    # Request/response interceptors (auth, refresh)
 ├── components/            # Reusable components
 │   ├── ui/               # shadcn/ui components
-│   └── layout/           # Layout components
+│   ├── layout/           # Layout components (AppLayout, Sidebar, Header)
+│   └── data-table/       # Reusable data table component
 ├── features/             # Feature-based modules
-│   └── auth/            # Authentication feature
-│       ├── api/         # Auth API functions
-│       ├── hooks/       # Auth React Query hooks
-│       ├── schemas/     # Zod validation schemas
-│       ├── components/  # Auth components
-│       └── pages/       # Auth pages
-├── hooks/               # Custom React hooks
+│   ├── auth/            # Authentication (login, logout, current user)
+│   ├── items/           # Items CRUD example
+│   ├── users/           # Users admin management
+│   └── profile/         # User profile management
+├── hooks/               # Custom React hooks (usePermissions, useTheme)
 ├── i18n/                # Internationalization
 │   ├── config.ts        # i18next configuration
-│   └── locales/         # Translation files
+│   └── locales/         # Translation files (en, es)
 ├── lib/                 # Utility libraries
-├── pages/               # Page components
-├── routes/              # Routing configuration
+├── pages/               # Non-feature pages (Dashboard, NotFound, Unauthorized)
+├── routes/              # Routing configuration + ProtectedRoute
 ├── store/               # Zustand state management
-│   └── slices/          # State slices
+│   └── slices/          # State slices (auth, ui)
 ├── types/               # TypeScript types
-│   └── generated/       # Auto-generated API types
+│   ├── models.ts        # Shared type definitions
+│   └── generated/       # Auto-generated API types (when available)
 └── test/                # Test utilities
 ```
 
@@ -119,10 +132,10 @@ VITE_DEFAULT_LANGUAGE=en
 The boilerplate includes a complete authentication system:
 
 1. Login with email and password
-2. Token stored in httpOnly cookies (with localStorage fallback)
-3. Automatic token refresh before expiration
+2. JWT tokens stored in localStorage (access_token, refresh_token)
+3. Automatic token refresh on 401 responses
 4. Protected routes requiring authentication
-5. Permission-based access control
+5. Permission-based access control (currently based on is_admin flag)
 
 ### Usage Example
 
@@ -147,9 +160,10 @@ The boilerplate uses Zustand for client state and TanStack Query for server stat
 
 ## API Integration
 
-### Type Generation
+### Type Definitions
 
-Generate TypeScript types from your backend OpenAPI schema:
+Types are defined in `src/types/models.ts`. When your backend is running,
+you can generate types from OpenAPI:
 
 ```bash
 npm run generate:types
@@ -158,21 +172,27 @@ npm run generate:types
 ### Making API Calls
 
 ```tsx
-// Define API function
-export const getUsers = async () => {
-  const response = await apiClient.get('/api/v1/users')
-  return response.data
+// 1. Define API function (src/features/<name>/api/<name>.api.ts)
+import { apiClient } from '@/api/client'
+import { API_ENDPOINTS } from '@/api/endpoints'
+import type { User } from '@/types/models'
+
+export const usersApi = {
+  getUsers: async () => {
+    const response = await apiClient.get<User[]>(API_ENDPOINTS.USERS.LIST)
+    return response.data
+  },
 }
 
-// Use with React Query
+// 2. Create React Query hook (src/features/<name>/hooks/use-<name>.ts)
 export function useUsers() {
   return useQuery({
     queryKey: ['users'],
-    queryFn: getUsers,
+    queryFn: usersApi.getUsers,
   })
 }
 
-// Use in component
+// 3. Use in component
 function UsersPage() {
   const { data, isLoading } = useUsers()
   // ...

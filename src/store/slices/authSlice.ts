@@ -1,16 +1,7 @@
 import { StateCreator } from 'zustand'
+import type { User } from '@/types/models'
 
-export interface User {
-  id: string | number
-  email: string
-  first_name: string
-  last_name: string
-  status: "active" | "inactive"
-  role: "admin" | "user"
-  is_admin: boolean
-  created_at?: string
-  updated_at?: string
-}
+export type { User }
 
 export interface AuthState {
   user: User | null

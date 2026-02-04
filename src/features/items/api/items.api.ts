@@ -1,29 +1,9 @@
-import { apiClient } from "@/api/client"
-import { API_ENDPOINTS } from "@/api/endpoints"
-import { ItemCreateInput, ItemUpdateInput } from "../schemas"
+import { apiClient } from '@/api/client'
+import { API_ENDPOINTS } from '@/api/endpoints'
+import { ItemCreateInput, ItemUpdateInput } from '../schemas'
+import type { Item, ItemsListResponse, ItemsListParams } from '@/types/models'
 
-export interface Item {
-  id: string
-  title: string
-  description?: string
-  owner_id: string
-  owner_email?: string
-  status: string
-  created_at: string
-  updated_at: string
-}
-
-export interface ItemsListResponse {
-  items: Item[]
-  total: number
-  skip: number
-  limit: number
-}
-
-export interface ItemsListParams {
-  skip?: number
-  limit?: number
-}
+export type { Item, ItemsListResponse, ItemsListParams }
 
 export const itemsApi = {
   getItems: async (params: ItemsListParams = {}): Promise<ItemsListResponse> => {

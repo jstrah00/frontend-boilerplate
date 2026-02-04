@@ -1,23 +1,13 @@
-import apiClient from '@/api/client'
+import { apiClient } from '@/api/client'
 import { API_ENDPOINTS } from '@/api/endpoints'
-import { User } from '@/store/slices/authSlice'
+import type {
+  User,
+  LoginCredentials,
+  LoginResponse,
+  RefreshResponse,
+} from '@/types/models'
 
-export interface LoginCredentials {
-  email: string
-  password: string
-}
-
-export interface LoginResponse {
-  access_token: string
-  refresh_token: string
-  token_type: string
-}
-
-export interface RefreshResponse {
-  access_token: string
-  refresh_token: string
-  token_type: string
-}
+export type { LoginCredentials, LoginResponse, RefreshResponse }
 
 export const authApi = {
   login: async (credentials: LoginCredentials): Promise<LoginResponse> => {

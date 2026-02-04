@@ -1,13 +1,12 @@
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
-import { useTranslation } from 'react-i18next'
+import i18n from '@/i18n/config'
 import { authApi, LoginCredentials } from '../api/auth.api'
 import { useAuth } from '@/store'
 
 export function useLogin() {
   const navigate = useNavigate()
-  const { t } = useTranslation()
   const { setUser, setPermissions } = useAuth()
 
   return useMutation({
@@ -39,11 +38,11 @@ export function useLogin() {
       }
       setPermissions(permissions)
 
-      toast.success(t('auth.loginSuccess'))
+      toast.success(i18n.t('auth.loginSuccess'))
       navigate('/')
     },
     onError: () => {
-      toast.error(t('auth.loginError'))
+      toast.error(i18n.t('auth.loginError'))
     },
   })
 }

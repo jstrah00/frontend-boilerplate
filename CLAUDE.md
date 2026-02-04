@@ -1,136 +1,211 @@
-# CLAUDE.md
+# Frontend Boilerplate - React + TypeScript + Vite
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Production-ready React SPA integrated with FastAPI backend.
+
+## Quick Context
+
+SPA consuming FastAPI REST API:
+- Frontend: Port 5173 (dev), Port 80 (prod)
+- Backend API: Port 8000 (VITE_API_BASE_URL)
+- Auth: JWT with auto-refresh via localStorage
+
+## Tech Stack
+
+- Vite + React 18 + TypeScript
+- TailwindCSS V4 + shadcn/ui
+- Zustand (client state) + TanStack Query (server state)
+- React Router v6 + React Hook Form + Zod
+- Axios + i18next
 
 ## Commands
+```bash
+npm run dev                 # http://localhost:5173
+npm run build              # Production build
+npm run preview            # Preview build
+npm run test               # Vitest watch
+npm run test:coverage      # Coverage report
+npm run lint               # ESLint (max-warnings=0)
 
-### Development
-- `npm run dev` - Start development server on http://localhost:5173
-- `npm run build` - Type check with tsc and build for production
-- `npm run preview` - Preview production build
-
-### Code Quality
-- `npm run lint` - Run ESLint with TypeScript rules
-
-### Testing
-- `npm run test` - Run Vitest tests in watch mode
-- `npm run test:coverage` - Run tests with coverage report
-
-### Type Generation
-- `npm run generate:types` - Generate TypeScript types from backend OpenAPI schema at `${VITE_API_BASE_URL}/openapi.json` (requires backend running)
-
-## Architecture Overview
-
-### Tech Stack Core
-- **Build:** Vite + React 18 + TypeScript (strict mode enabled)
-- **Styling:** TailwindCSS V4 + shadcn/ui components
-- **State:** Zustand (slices pattern) for client state, TanStack Query for server state
-- **Routing:** React Router v6 with ProtectedRoute wrapper
-- **Forms:** React Hook Form + Zod validation
-- **HTTP:** Axios with automatic token refresh interceptors
-- **i18n:** i18next (EN/ES)
-
-### State Management Pattern
-
-The app uses a **split state strategy**:
-
-1. **Zustand (client state)** - Located in `src/store/`
-   - Uses the slices pattern: `createAuthSlice`, `createUISlice` combined in `src/store/index.ts`
-   - Auth slice: user object, permissions array, isAuthenticated flag
-   - UI slice: sidebar collapsed state, theme preferences
-   - Selectors exported as custom hooks: `useAuth()`, `useUI()`
-   - Persists only UI preferences to localStorage via Zustand persist middleware
-
-2. **TanStack Query (server state)** - Query hooks in feature directories (e.g., `src/features/auth/hooks/`)
-   - All API data caching and synchronization
-   - Query client configured in `src/lib/query-client.ts`
-
-### Authentication System
-
-Multi-layered authentication with token refresh:
-
-1. **Token storage:** Dual strategy - httpOnly cookies (preferred) with localStorage fallback
-2. **Axios interceptors** (`src/api/interceptors.ts`):
-   - Request interceptor: Adds Authorization header from localStorage token
-   - Response interceptor: Handles 401 with automatic token refresh via `/v1/auth/refresh`
-   - Uses request queueing pattern during refresh to prevent race conditions
-   - 403 redirects to `/unauthorized`, 401 after refresh failure redirects to `/login`
-3. **Route protection:**
-   - `<ProtectedRoute>` wrapper checks `isAuthenticated` from Zustand
-   - Optional `requiredPermissions` prop for permission-based access control
-   - Redirects to `/login` if unauthenticated, `/unauthorized` if missing permissions
-4. **Permission checking:**
-   - `usePermissions()` hook provides `hasAllPermissions()` and `hasAnyPermission()`
-   - `<Can perform="permission:action">` component for conditional rendering
-
-### Feature-Based Structure
-
-The codebase follows a hybrid structure with feature folders for domain logic:
-
-```
-src/features/<feature>/
-  ├── api/           # API functions (plain async functions)
-  ├── hooks/         # React Query hooks (useQuery, useMutation)
-  ├── schemas/       # Zod validation schemas
-  ├── components/    # Feature-specific components
-  └── pages/         # Feature page components
+# Type generation (requires backend running)
+npm run generate:types     # Generate from backend OpenAPI → src/types/generated/
 ```
 
-Example: `src/features/auth/` contains login API, hooks, schemas, and pages.
+## Project Structure
+```
+src/
+├── api/                   # Axios client + interceptors
+├── features/<feature>/    # Feature-based architecture
+│   ├── api/              # API functions (exports types from models)
+│   ├── hooks/            # React Query hooks
+│   ├── schemas/          # Zod validation (forms only)
+│   ├── components/       # Feature components
+│   ├── pages/            # Feature pages
+│   └── index.ts          # Public exports
+├── components/
+│   ├── ui/              # shadcn/ui components
+│   └── layout/          # AppLayout, Sidebar, Header
+├── routes/              # Router config + ProtectedRoute
+├── store/               # Zustand (auth + UI state)
+├── hooks/               # Custom hooks (usePermissions, useTheme)
+├── lib/                 # Utilities (cn, formatters)
+├── i18n/                # Translations (EN/ES)
+├── pages/               # Non-feature pages (Dashboard, NotFound)
+└── types/
+    ├── models.ts        # Shared type definitions (User, Item, etc.)
+    └── generated/       # Auto-generated from backend (when available)
+```
 
-### API Integration
+## Key Patterns
 
-1. **Base client:** `src/api/client.ts` - Axios instance with baseURL from `VITE_API_BASE_URL`
-2. **Endpoints:** `src/api/endpoints.ts` - API endpoint constants
-3. **Interceptors:** `src/api/interceptors.ts` - Token refresh and error handling
-4. **Type generation:** Auto-generated types in `src/types/generated/api.ts` from backend OpenAPI schema
+### State Management (CRITICAL)
 
-Pattern for new API integrations:
-```tsx
-// 1. Create API function in features/<name>/api/
-export const getUsers = async () => {
-  const response = await apiClient.get('/api/v1/users')
-  return response.data
+**Two-state strategy:**
+1. **Zustand** (src/store/): Client state only (auth info, UI prefs)
+2. **TanStack Query** (feature hooks): ALL server data
+
+**NEVER duplicate server data in Zustand!**
+
+### Type Safety
+
+Types are defined in `src/types/models.ts`:
+```typescript
+import type { User, Item } from '@/types/models'
+```
+
+When backend OpenAPI is available, run `npm run generate:types` to create
+`src/types/generated/api.ts` and migrate imports.
+
+### API Integration Pattern
+```typescript
+// 1. API function (features/<name>/api/<name>.api.ts)
+import { apiClient } from '@/api/client'
+import { API_ENDPOINTS } from '@/api/endpoints'
+import type { User } from '@/types/models'
+
+export const usersApi = {
+  getUsers: async () => {
+    const response = await apiClient.get<User[]>(API_ENDPOINTS.USERS.LIST)
+    return response.data
+  },
 }
 
-// 2. Create React Query hook in features/<name>/hooks/
+// 2. React Query hook (features/<name>/hooks/use-<name>.ts)
 export function useUsers() {
   return useQuery({
     queryKey: ['users'],
-    queryFn: getUsers,
+    queryFn: usersApi.getUsers,
   })
 }
+
+// 3. Use in component
+const { data: users, isLoading } = useUsers()
 ```
 
-### Routing Configuration
+### Forms
 
-Routes defined in `src/routes/index.tsx` using `createBrowserRouter`:
-- Public routes: `/login`, `/unauthorized`
-- Protected routes wrapped with `<ProtectedRoute>` and `<AppLayout>`
-- Permission-based example: `/users` requires `['users:read']` permission
-- All protected routes use AppLayout which provides sidebar navigation and header
+Always use react-hook-form + Zod:
+```typescript
+const userSchema = z.object({
+  email: z.string().email(),
+  name: z.string().min(2),
+})
 
-### Path Aliases
+const form = useForm({
+  resolver: zodResolver(userSchema),
+})
+```
 
-Use `@/` for imports: `@/components`, `@/hooks`, `@/lib`, etc.
-Configured in both `vite.config.ts` and `tsconfig.json`.
+### Auth Flow
 
-### Error Handling
+1. Login → tokens stored in localStorage
+2. Request interceptor adds `Authorization: Bearer {token}`
+3. Response interceptor catches 401 → auto-refresh
+4. If refresh fails → logout + redirect to /login
 
-Global error handling in `src/api/interceptors.ts`:
-- Displays toast notifications via Sonner for non-auth errors
-- Auth errors (401) handled silently during token refresh
-- 403 errors redirect to unauthorized page
+**Token refresh is automatic - don't handle 401 manually!**
 
-### Environment Variables
+### Routing & Permissions
+```typescript
+// Protected route
+<ProtectedRoute requiredPermissions={['users:read']}>
+  <UsersPage />
+</ProtectedRoute>
 
-Required in `.env` (copy from `.env.example`):
-- `VITE_API_BASE_URL` - Backend API URL (default: http://localhost:8000)
-- `VITE_APP_TITLE` - Application title
-- `VITE_DEFAULT_LANGUAGE` - Default language (en/es)
+// Permission check in component
+<Can perform="users:write">
+  <Button>Create</Button>
+</Can>
+```
 
-### Development Server
+**Note:** Permissions are currently hardcoded based on `is_admin` flag.
+Update `use-login.ts`, `use-current-user.ts`, and `auth-provider.tsx`
+when backend sends permissions directly.
 
-Vite dev server includes proxy configuration (`vite.config.ts:15-19`):
-- `/api` requests proxied to `http://localhost:8000`
-- Allows backend and frontend to run on different ports during development
+### i18n
+```typescript
+// In components
+const { t } = useTranslation()
+<h1>{t('users.title')}</h1>
+
+// In hooks (outside React context)
+import i18n from '@/i18n/config'
+toast.success(i18n.t('users.toast.success'))
+```
+
+### Styling
+```typescript
+// Tailwind utilities
+<div className="flex items-center gap-4 p-4">
+
+// Conditional with cn()
+import { cn } from '@/lib/utils'
+<button className={cn("px-4 py-2", isActive && "bg-blue-500")}>
+```
+
+## Adding New Feature (CRUD)
+
+1. Create structure: `src/features/<name>/{api,hooks,schemas,components,pages,index.ts}`
+2. Add types to `src/types/models.ts` if needed
+3. API functions → React Query hooks → Components → Pages
+4. Add routes to `src/routes/index.tsx`
+5. Add i18n keys to `src/i18n/locales/{en,es}/translation.json`
+
+See detailed workflow: `docs/FEATURE_WORKFLOW.md`
+
+## Integration with Backend
+
+- Backend: http://localhost:8000
+- API base: /api (configured in client.ts)
+- Endpoints: /v1/* (defined in endpoints.ts)
+- OpenAPI: /openapi.json
+- Auth: JWT tokens in localStorage
+
+## Environment Variables
+
+`.env` file:
+```env
+VITE_API_BASE_URL=http://localhost:8000/api
+VITE_APP_TITLE=My SaaS
+VITE_DEFAULT_LANGUAGE=en
+```
+
+## Gotchas
+
+- Always use `apiClient` (has interceptors), never raw `axios`
+- Always use named import: `import { apiClient } from '@/api/client'`
+- Server data ONLY in TanStack Query (not Zustand)
+- All pages lazy loaded (already configured)
+- Use `i18n.t()` in hooks, `useTranslation()` in components
+
+## Reference Implementations
+
+- `src/features/auth/` - Auth with JWT
+- `src/features/items/` - CRUD example
+- `src/features/users/` - Admin with permissions
+- `src/features/profile/` - Single-entity update
+
+## Documentation
+
+- Full patterns: `docs/prompts/frontend-patterns.md`
+- Workflow guide: `docs/FEATURE_WORKFLOW.md`
+- Examples: `docs/prompts/EXAMPLE_USAGE.md`

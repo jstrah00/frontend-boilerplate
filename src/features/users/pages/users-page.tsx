@@ -47,20 +47,20 @@ export function UsersPage() {
 
   const handleUpdateUser = async (data: UserCreateInput | UserUpdateInput) => {
     if (!editingUser) return
-    await updateUserMutation.mutateAsync({ id: editingUser.id, data: data as UserUpdateInput })
+    await updateUserMutation.mutateAsync({ id: String(editingUser.id), data: data as UserUpdateInput })
     setEditingUser(null)
   }
 
   const handleDeleteUser = async () => {
     if (!deletingUser) return
-    await deleteUserMutation.mutateAsync(deletingUser.id)
+    await deleteUserMutation.mutateAsync(String(deletingUser.id))
     setDeletingUser(null)
   }
 
   const handleChangePassword = async (data: PasswordChangeInput) => {
     if (!changingPasswordUser) return
     await changePasswordMutation.mutateAsync({
-      id: changingPasswordUser.id,
+      id: String(changingPasswordUser.id),
       data,
     })
     setChangingPasswordUser(null)

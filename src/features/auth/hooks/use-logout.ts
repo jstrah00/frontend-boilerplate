@@ -1,13 +1,12 @@
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
-import { useTranslation } from 'react-i18next'
+import i18n from '@/i18n/config'
 import { authApi } from '../api/auth.api'
 import { useAuth } from '@/store'
 
 export function useLogout() {
   const navigate = useNavigate()
-  const { t } = useTranslation()
   const { logout } = useAuth()
 
   return useMutation({
@@ -20,7 +19,7 @@ export function useLogout() {
       // Clear auth state
       logout()
 
-      toast.success(t('auth.logoutSuccess'))
+      toast.success(i18n.t('auth.logoutSuccess'))
       navigate('/login')
     },
     onError: () => {
