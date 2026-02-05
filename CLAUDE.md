@@ -11,24 +11,25 @@ SPA consuming FastAPI REST API:
 
 ## Tech Stack
 
-- Vite + React 18 + TypeScript
-- TailwindCSS V4 + shadcn/ui
-- Zustand (client state) + TanStack Query (server state)
-- React Router v6 + React Hook Form + Zod
-- Axios + i18next
+Vite + React 18 + TypeScript | TailwindCSS V4 + shadcn/ui | Zustand + TanStack Query | React Router v6 + React Hook Form + Zod | Axios + i18next
 
 ## Commands
 ```bash
 npm run dev                 # http://localhost:5173
 npm run build              # Production build
-npm run preview            # Preview build
 npm run test               # Vitest watch
-npm run test:coverage      # Coverage report
 npm run lint               # ESLint (max-warnings=0)
-
-# Type generation (requires backend running)
-npm run generate:types     # Generate from backend OpenAPI → src/types/generated/
+npm run generate:types     # Generate types from backend OpenAPI
 ```
+
+## Claude Code Skills (Use with @skill-name)
+- `@react-component` - Create TypeScript component with Tailwind and shadcn/ui
+- `@react-form` - Create form with Zod validation and react-hook-form
+- `@api-integration` - Create API integration with TanStack Query hooks
+- `@react-feature` - Complete feature with API, hooks, components, and pages
+- `@react-page` - Create page component and add to routing
+
+**IMPORTANT**: Always invoke relevant skill when creating features - they contain boilerplate-specific patterns.
 
 ## Project Structure
 ```
@@ -143,13 +144,9 @@ when backend sends permissions directly.
 
 ### i18n
 ```typescript
-// In components
+// Components: use useTranslation() hook
 const { t } = useTranslation()
-<h1>{t('users.title')}</h1>
-
-// In hooks (outside React context)
-import i18n from '@/i18n/config'
-toast.success(i18n.t('users.toast.success'))
+// Hooks: use i18n directly (import i18n from '@/i18n/config')
 ```
 
 ### Styling
@@ -170,19 +167,14 @@ import { cn } from '@/lib/utils'
 4. Add routes to `src/routes/index.tsx`
 5. Add i18n keys to `src/i18n/locales/{en,es}/translation.json`
 
-See detailed workflow: `docs/FEATURE_WORKFLOW.md`
+See: `docs/FEATURE_WORKFLOW.md`
 
 ## Integration with Backend
 
-- Backend: http://localhost:8000
-- API base: /api (configured in client.ts)
-- Endpoints: /v1/* (defined in endpoints.ts)
-- OpenAPI: /openapi.json
-- Auth: JWT tokens in localStorage
+Backend at http://localhost:8000 | API base /api | Endpoints /v1/* | OpenAPI /openapi.json | Auth: JWT in localStorage
 
 ## Environment Variables
 
-`.env` file:
 ```env
 VITE_API_BASE_URL=http://localhost:8000/api
 VITE_APP_TITLE=My SaaS
@@ -199,10 +191,7 @@ VITE_DEFAULT_LANGUAGE=en
 
 ## Reference Implementations
 
-- `src/features/auth/` - Auth with JWT
-- `src/features/items/` - CRUD example
-- `src/features/users/` - Admin with permissions
-- `src/features/profile/` - Single-entity update
+Auth: `src/features/auth/` | CRUD: `src/features/items/` | Admin: `src/features/users/` | Single-entity: `src/features/profile/`
 
 ## Documentation
 

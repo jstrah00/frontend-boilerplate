@@ -55,7 +55,7 @@ If you see "Network Error" or "Blocked by DevTools":
    - Open `fastapi-boilerplate/.env`
    - Update the CORS_ORIGINS line to include your frontend URL (IMPORTANT: use JSON array format):
      ```
-     CORS_ORIGINS=["http://localhost:3000","http://localhost:5173"]
+     CORS_ORIGINS=["http://localhost:5173"]
      ```
    - Note: The value MUST be valid JSON array format (with quotes and square brackets)
    - Restart the backend server:
