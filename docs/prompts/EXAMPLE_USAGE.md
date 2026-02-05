@@ -32,26 +32,26 @@ Add types to `src/types/models.ts`:
 // src/types/models.ts
 
 export interface Product {
-  id: string
-  name: string
-  description?: string
-  price: number
-  stock: number
-  owner_id: string
-  created_at: string
-  updated_at: string
+ id: string
+ name: string
+ description?: string
+ price: number
+ stock: number
+ owner_id: string
+ created_at: string
+ updated_at: string
 }
 
 export interface ProductsListResponse {
-  products: Product[]
-  total: number
-  skip: number
-  limit: number
+ products: Product[]
+ total: number
+ skip: number
+ limit: number
 }
 
 export interface ProductsListParams {
-  skip?: number
-  limit?: number
+ skip?: number
+ limit?: number
 }
 ```
 
@@ -71,32 +71,32 @@ import { ProductCreateInput, ProductUpdateInput } from '../schemas'
 export type { Product, ProductsListResponse, ProductsListParams }
 
 export const productsApi = {
-  getProducts: async (params: ProductsListParams = {}): Promise<ProductsListResponse> => {
-    const { skip = 0, limit = 10 } = params
-    const response = await apiClient.get(API_ENDPOINTS.PRODUCTS.LIST, {
-      params: { skip, limit },
-    })
-    return response.data
-  },
+ getProducts: async (params: ProductsListParams = {}): Promise<ProductsListResponse> => {
+ const { skip = 0, limit = 10 } = params
+ const response = await apiClient.get(API_ENDPOINTS.PRODUCTS.LIST, {
+ params: { skip, limit },
+ })
+ return response.data
+ },
 
-  getProduct: async (id: string): Promise<Product> => {
-    const response = await apiClient.get(API_ENDPOINTS.PRODUCTS.DETAIL(id))
-    return response.data
-  },
+ getProduct: async (id: string): Promise<Product> => {
+ const response = await apiClient.get(API_ENDPOINTS.PRODUCTS.DETAIL(id))
+ return response.data
+ },
 
-  createProduct: async (data: ProductCreateInput): Promise<Product> => {
-    const response = await apiClient.post(API_ENDPOINTS.PRODUCTS.CREATE, data)
-    return response.data
-  },
+ createProduct: async (data: ProductCreateInput): Promise<Product> => {
+ const response = await apiClient.post(API_ENDPOINTS.PRODUCTS.CREATE, data)
+ return response.data
+ },
 
-  updateProduct: async (id: string, data: ProductUpdateInput): Promise<Product> => {
-    const response = await apiClient.patch(API_ENDPOINTS.PRODUCTS.UPDATE(id), data)
-    return response.data
-  },
+ updateProduct: async (id: string, data: ProductUpdateInput): Promise<Product> => {
+ const response = await apiClient.patch(API_ENDPOINTS.PRODUCTS.UPDATE(id), data)
+ return response.data
+ },
 
-  deleteProduct: async (id: string): Promise<void> => {
-    await apiClient.delete(API_ENDPOINTS.PRODUCTS.DELETE(id))
-  },
+ deleteProduct: async (id: string): Promise<void> => {
+ await apiClient.delete(API_ENDPOINTS.PRODUCTS.DELETE(id))
+ },
 }
 ```
 
@@ -112,10 +112,10 @@ import { productsApi, ProductsListParams } from '../api/products.api'
 export const PRODUCTS_QUERY_KEY = 'products'
 
 export function useProducts(params: ProductsListParams = {}) {
-  return useQuery({
-    queryKey: [PRODUCTS_QUERY_KEY, params],
-    queryFn: () => productsApi.getProducts(params),
-  })
+ return useQuery({
+ queryKey: [PRODUCTS_QUERY_KEY, params],
+ queryFn: () => productsApi.getProducts(params),
+ })
 }
 ```
 
@@ -130,18 +130,18 @@ import { ProductCreateInput } from '../schemas'
 import { PRODUCTS_QUERY_KEY } from './use-products'
 
 export function useCreateProduct() {
-  const queryClient = useQueryClient()
+ const queryClient = useQueryClient()
 
-  return useMutation({
-    mutationFn: (data: ProductCreateInput) => productsApi.createProduct(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [PRODUCTS_QUERY_KEY] })
-      toast.success(i18n.t('products.toast.createSuccess'))
-    },
-    onError: (error: ApiError) => {
-      toast.error(error.response?.data?.detail || i18n.t('products.toast.createError'))
-    },
-  })
+ return useMutation({
+ mutationFn: (data: ProductCreateInput) => productsApi.createProduct(data),
+ onSuccess: () => {
+ queryClient.invalidateQueries({ queryKey: [PRODUCTS_QUERY_KEY] })
+ toast.success(i18n.t('products.toast.createSuccess'))
+ },
+ onError: (error: ApiError) => {
+ toast.error(error.response?.data?.detail || i18n.t('products.toast.createError'))
+ },
+ })
 }
 ```
 
@@ -155,18 +155,18 @@ import { productsApi } from '../api/products.api'
 import { PRODUCTS_QUERY_KEY } from './use-products'
 
 export function useDeleteProduct() {
-  const queryClient = useQueryClient()
+ const queryClient = useQueryClient()
 
-  return useMutation({
-    mutationFn: (id: string) => productsApi.deleteProduct(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [PRODUCTS_QUERY_KEY] })
-      toast.success(i18n.t('products.toast.deleteSuccess'))
-    },
-    onError: (error: ApiError) => {
-      toast.error(error.response?.data?.detail || i18n.t('products.toast.deleteError'))
-    },
-  })
+ return useMutation({
+ mutationFn: (id: string) => productsApi.deleteProduct(id),
+ onSuccess: () => {
+ queryClient.invalidateQueries({ queryKey: [PRODUCTS_QUERY_KEY] })
+ toast.success(i18n.t('products.toast.deleteSuccess'))
+ },
+ onError: (error: ApiError) => {
+ toast.error(error.response?.data?.detail || i18n.t('products.toast.deleteError'))
+ },
+ })
 }
 ```
 
@@ -185,10 +185,10 @@ export { useDeleteProduct } from './use-delete-product'
 import { z } from 'zod'
 
 export const productCreateSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  description: z.string().optional(),
-  price: z.number().min(0, 'Price must be positive'),
-  stock: z.number().int().min(0, 'Stock must be non-negative'),
+ name: z.string().min(2, 'Name must be at least 2 characters'),
+ description: z.string().optional(),
+ price: z.number().min(0, 'Price must be positive'),
+ stock: z.number().int().min(0, 'Stock must be non-negative'),
 })
 
 export const productUpdateSchema = productCreateSchema.partial()
@@ -203,11 +203,11 @@ export type ProductUpdateInput = z.infer<typeof productUpdateSchema>
 ```typescript
 // src/features/products/components/product-card.tsx
 import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
+ Card,
+ CardContent,
+ CardFooter,
+ CardHeader,
+ CardTitle,
 } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -216,65 +216,65 @@ import type { Product } from '@/types/generated/api'
 import { Pencil, Trash2 } from 'lucide-react'
 
 interface ProductCardProps {
-  product: Product
-  onEdit?: (product: Product) => void
-  onDelete?: (id: number) => void
+ product: Product
+ onEdit?: (product: Product) => void
+ onDelete?: (id: number) => void
 }
 
 export function ProductCard({ product, onEdit, onDelete }: ProductCardProps) {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-start justify-between">
-          {product.name}
-          <Badge variant={product.stock > 0 ? 'default' : 'destructive'}>
-            {product.stock > 0 ? 'In Stock' : 'Out of Stock'}
-          </Badge>
-        </CardTitle>
-      </CardHeader>
-      
-      <CardContent>
-        <p className="text-sm text-muted-foreground line-clamp-2">
-          {product.description || 'No description'}
-        </p>
-        
-        <div className="mt-4 flex items-center justify-between">
-          <span className="text-2xl font-bold">
-            ${product.price.toFixed(2)}
-          </span>
-          <span className="text-sm text-muted-foreground">
-            Stock: {product.stock}
-          </span>
-        </div>
-      </CardContent>
-      
-      <CardFooter className="flex gap-2">
-        <Can perform="products:update">
-          <Button
-            onClick={() => onEdit?.(product)}
-            variant="outline"
-            size="sm"
-            className="flex-1"
-          >
-            <Pencil className="mr-2 h-4 w-4" />
-            Edit
-          </Button>
-        </Can>
-        
-        <Can perform="products:delete">
-          <Button
-            onClick={() => onDelete?.(product.id)}
-            variant="destructive"
-            size="sm"
-            className="flex-1"
-          >
-            <Trash2 className="mr-2 h-4 w-4" />
-            Delete
-          </Button>
-        </Can>
-      </CardFooter>
-    </Card>
-  )
+ return (
+ <Card>
+ <CardHeader>
+ <CardTitle className="flex items-start justify-between">
+ {product.name}
+ <Badge variant={product.stock > 0 ? 'default' : 'destructive'}>
+ {product.stock > 0 ? 'In Stock' : 'Out of Stock'}
+ </Badge>
+ </CardTitle>
+ </CardHeader>
+ 
+ <CardContent>
+ <p className="text-sm text-muted-foreground line-clamp-2">
+ {product.description || 'No description'}
+ </p>
+ 
+ <div className="mt-4 flex items-center justify-between">
+ <span className="text-2xl font-bold">
+ ${product.price.toFixed(2)}
+ </span>
+ <span className="text-sm text-muted-foreground">
+ Stock: {product.stock}
+ </span>
+ </div>
+ </CardContent>
+ 
+ <CardFooter className="flex gap-2">
+ <Can perform="products:update">
+ <Button
+ onClick={() => onEdit?.(product)}
+ variant="outline"
+ size="sm"
+ className="flex-1"
+ >
+ <Pencil className="mr-2 h-4 w-4" />
+ Edit
+ </Button>
+ </Can>
+ 
+ <Can perform="products:delete">
+ <Button
+ onClick={() => onDelete?.(product.id)}
+ variant="destructive"
+ size="sm"
+ className="flex-1"
+ >
+ <Trash2 className="mr-2 h-4 w-4" />
+ Delete
+ </Button>
+ </Can>
+ </CardFooter>
+ </Card>
+ )
 }
 ```
 
@@ -285,131 +285,131 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/ui/button'
 import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+ Form,
+ FormControl,
+ FormDescription,
+ FormField,
+ FormItem,
+ FormLabel,
+ FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import {
-  productCreateSchema,
-  type ProductCreateInput,
+ productCreateSchema,
+ type ProductCreateInput,
 } from '../schemas/product-schema'
 
 interface ProductFormProps {
-  onSubmit: (data: ProductCreateInput) => void
-  isPending?: boolean
-  defaultValues?: Partial<ProductCreateInput>
+ onSubmit: (data: ProductCreateInput) => void
+ isPending?: boolean
+ defaultValues?: Partial<ProductCreateInput>
 }
 
 export function ProductForm({
-  onSubmit,
-  isPending,
-  defaultValues,
+ onSubmit,
+ isPending,
+ defaultValues,
 }: ProductFormProps) {
-  const form = useForm<ProductCreateInput>({
-    resolver: zodResolver(productCreateSchema),
-    defaultValues: defaultValues || {
-      name: '',
-      description: '',
-      price: 0,
-      stock: 0,
-    },
-  })
-  
-  return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Product Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter product name" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Enter product description"
-                  className="resize-none"
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription>
-                Optional. Describe the product in detail.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        
-        <div className="grid gap-6 sm:grid-cols-2">
-          <FormField
-            control={form.control}
-            name="price"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Price ($)</FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    placeholder="0.00"
-                    {...field}
-                    onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          
-          <FormField
-            control={form.control}
-            name="stock"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Stock</FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    min="0"
-                    placeholder="0"
-                    {...field}
-                    onChange={(e) => field.onChange(parseInt(e.target.value))}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        
-        <div className="flex justify-end gap-2">
-          <Button type="submit" disabled={isPending}>
-            {isPending ? 'Saving...' : 'Save Product'}
-          </Button>
-        </div>
-      </form>
-    </Form>
-  )
+ const form = useForm<ProductCreateInput>({
+ resolver: zodResolver(productCreateSchema),
+ defaultValues: defaultValues || {
+ name: '',
+ description: '',
+ price: 0,
+ stock: 0,
+ },
+ })
+ 
+ return (
+ <Form {...form}>
+ <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+ <FormField
+ control={form.control}
+ name="name"
+ render={({ field }) => (
+ <FormItem>
+ <FormLabel>Product Name</FormLabel>
+ <FormControl>
+ <Input placeholder="Enter product name" {...field} />
+ </FormControl>
+ <FormMessage />
+ </FormItem>
+ )}
+ />
+ 
+ <FormField
+ control={form.control}
+ name="description"
+ render={({ field }) => (
+ <FormItem>
+ <FormLabel>Description</FormLabel>
+ <FormControl>
+ <Textarea
+ placeholder="Enter product description"
+ className="resize-none"
+ {...field}
+ />
+ </FormControl>
+ <FormDescription>
+ Optional. Describe the product in detail.
+ </FormDescription>
+ <FormMessage />
+ </FormItem>
+ )}
+ />
+ 
+ <div className="grid gap-6 sm:grid-cols-2">
+ <FormField
+ control={form.control}
+ name="price"
+ render={({ field }) => (
+ <FormItem>
+ <FormLabel>Price ($)</FormLabel>
+ <FormControl>
+ <Input
+ type="number"
+ step="0.01"
+ min="0"
+ placeholder="0.00"
+ {...field}
+ onChange={(e) => field.onChange(parseFloat(e.target.value))}
+ />
+ </FormControl>
+ <FormMessage />
+ </FormItem>
+ )}
+ />
+ 
+ <FormField
+ control={form.control}
+ name="stock"
+ render={({ field }) => (
+ <FormItem>
+ <FormLabel>Stock</FormLabel>
+ <FormControl>
+ <Input
+ type="number"
+ min="0"
+ placeholder="0"
+ {...field}
+ onChange={(e) => field.onChange(parseInt(e.target.value))}
+ />
+ </FormControl>
+ <FormMessage />
+ </FormItem>
+ )}
+ />
+ </div>
+ 
+ <div className="flex justify-end gap-2">
+ <Button type="submit" disabled={isPending}>
+ {isPending ? 'Saving...' : 'Save Product'}
+ </Button>
+ </div>
+ </form>
+ </Form>
+ )
 }
 ```
 
@@ -420,17 +420,17 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+ Dialog,
+ DialogContent,
+ DialogHeader,
+ DialogTitle,
+ DialogTrigger,
 } from '@/components/ui/dialog'
 import { Can } from '@/components/can'
 import {
-  useProducts,
-  useCreateProduct,
-  useDeleteProduct,
+ useProducts,
+ useCreateProduct,
+ useDeleteProduct,
 } from '../hooks/use-products'
 import { ProductCard } from '../components/product-card'
 import { ProductForm } from '../components/product-form'
@@ -438,75 +438,75 @@ import { Plus } from 'lucide-react'
 import type { ProductCreateInput } from '../schemas/product-schema'
 
 export function ProductsPage() {
-  const { t } = useTranslation()
-  const [isCreateOpen, setIsCreateOpen] = useState(false)
-  
-  const { data: products, isLoading } = useProducts()
-  const { mutate: createProduct, isPending: isCreating } = useCreateProduct()
-  const { mutate: deleteProduct } = useDeleteProduct()
-  
-  const handleCreate = (data: ProductCreateInput) => {
-    createProduct(data, {
-      onSuccess: () => setIsCreateOpen(false),
-    })
-  }
-  
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
-  
-  return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">
-            {t('products.title')}
-          </h1>
-          <p className="text-muted-foreground">
-            Manage your product catalog
-          </p>
-        </div>
-        
-        <Can perform="products:create">
-          <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
-            <DialogTrigger asChild>
-              <Button>
-                <Plus className="mr-2 h-4 w-4" />
-                {t('products.create')}
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[600px]">
-              <DialogHeader>
-                <DialogTitle>Create Product</DialogTitle>
-              </DialogHeader>
-              <ProductForm onSubmit={handleCreate} isPending={isCreating} />
-            </DialogContent>
-          </Dialog>
-        </Can>
-      </div>
-      
-      {products && products.length > 0 ? (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {products.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onDelete={deleteProduct}
-            />
-          ))}
-        </div>
-      ) : (
-        <div className="flex h-[400px] items-center justify-center rounded-lg border border-dashed">
-          <div className="text-center">
-            <h3 className="text-lg font-semibold">No products yet</h3>
-            <p className="text-sm text-muted-foreground">
-              Create your first product to get started
-            </p>
-          </div>
-        </div>
-      )}
-    </div>
-  )
+ const { t } = useTranslation()
+ const [isCreateOpen, setIsCreateOpen] = useState(false)
+ 
+ const { data: products, isLoading } = useProducts()
+ const { mutate: createProduct, isPending: isCreating } = useCreateProduct()
+ const { mutate: deleteProduct } = useDeleteProduct()
+ 
+ const handleCreate = (data: ProductCreateInput) => {
+ createProduct(data, {
+ onSuccess: () => setIsCreateOpen(false),
+ })
+ }
+ 
+ if (isLoading) {
+ return <div>Loading...</div>
+ }
+ 
+ return (
+ <div className="space-y-6">
+ <div className="flex items-center justify-between">
+ <div>
+ <h1 className="text-3xl font-bold tracking-tight">
+ {t('products.title')}
+ </h1>
+ <p className="text-muted-foreground">
+ Manage your product catalog
+ </p>
+ </div>
+ 
+ <Can perform="products:create">
+ <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
+ <DialogTrigger asChild>
+ <Button>
+ <Plus className="mr-2 h-4 w-4" />
+ {t('products.create')}
+ </Button>
+ </DialogTrigger>
+ <DialogContent className="sm:max-w-[600px]">
+ <DialogHeader>
+ <DialogTitle>Create Product</DialogTitle>
+ </DialogHeader>
+ <ProductForm onSubmit={handleCreate} isPending={isCreating} />
+ </DialogContent>
+ </Dialog>
+ </Can>
+ </div>
+ 
+ {products && products.length > 0 ? (
+ <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+ {products.map((product) => (
+ <ProductCard
+ key={product.id}
+ product={product}
+ onDelete={deleteProduct}
+ />
+ ))}
+ </div>
+ ) : (
+ <div className="flex h-[400px] items-center justify-center rounded-lg border border-dashed">
+ <div className="text-center">
+ <h3 className="text-lg font-semibold">No products yet</h3>
+ <p className="text-sm text-muted-foreground">
+ Create your first product to get started
+ </p>
+ </div>
+ </div>
+ )}
+ </div>
+ )
 }
 ```
 
@@ -516,25 +516,25 @@ export function ProductsPage() {
 import { lazy } from 'react'
 
 const ProductsPage = lazy(() =>
-  import('@/features/products/pages/products-page').then((m) => ({
-    default: m.ProductsPage,
-  }))
+ import('@/features/products/pages/products-page').then((m) => ({
+ default: m.ProductsPage,
+ }))
 )
 
 // In your routes array:
 {
-  element: <ProtectedRoute requiredPermissions={['products:read']} />,
-  children: [
-    {
-      element: <AppLayout />,
-      children: [
-        {
-          path: '/products',
-          element: <ProductsPage />,
-        },
-      ],
-    },
-  ],
+ element: <ProtectedRoute requiredPermissions={['products:read']} />,
+ children: [
+ {
+ element: <AppLayout />,
+ children: [
+ {
+ path: '/products',
+ element: <ProductsPage />,
+ },
+ ],
+ },
+ ],
 }
 ```
 
@@ -542,18 +542,18 @@ const ProductsPage = lazy(() =>
 ```json
 // src/i18n/locales/en/translation.json
 {
-  "products": {
-    "title": "Products",
-    "create": "Create Product",
-    "toast": {
-      "createSuccess": "Product created successfully",
-      "createError": "Failed to create product",
-      "updateSuccess": "Product updated successfully",
-      "updateError": "Failed to update product",
-      "deleteSuccess": "Product deleted successfully",
-      "deleteError": "Failed to delete product"
-    }
-  }
+ "products": {
+ "title": "Products",
+ "create": "Create Product",
+ "toast": {
+ "createSuccess": "Product created successfully",
+ "createError": "Failed to create product",
+ "updateSuccess": "Product updated successfully",
+ "updateError": "Failed to update product",
+ "deleteSuccess": "Product deleted successfully",
+ "deleteError": "Failed to delete product"
+ }
+ }
 }
 ```
 

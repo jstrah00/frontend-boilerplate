@@ -1,6 +1,12 @@
-# Frontend Boilerplate
+# Frontend - React Application
 
-A production-ready React + TypeScript + Vite frontend boilerplate integrated with FastAPI backend.
+A production-ready React + TypeScript + Vite frontend integrated with FastAPI backend. This is a **Git submodule** of the SaaS Boilerplate monorepo.
+
+**For complete setup instructions, see**: `../docs/GETTING_STARTED.md` in the root directory.
+
+## About This Module
+
+This frontend application is designed to work as part of the SaaS Boilerplate monorepo but can also be developed independently. It's fully integrated with the backend API via type-safe contracts.
 
 ## Tech Stack
 
@@ -47,12 +53,13 @@ For detailed patterns and workflows, see `docs/prompts/frontend-patterns.md` and
 - Node.js 18+ and npm
 - Backend API running on `http://localhost:8000` (optional for development)
 
-### Installation
+### Standalone Setup (Frontend Only)
 
-1. Clone the repository:
+**Note**: If you cloned the monorepo, submodules are automatically set up. This setup is for standalone frontend development only.
+
+1. Navigate to frontend directory:
 ```bash
-git clone <repository-url>
-cd frontend-boilerplate
+cd frontend
 ```
 
 2. Install dependencies:
@@ -86,32 +93,32 @@ The application will be available at `http://localhost:5173`
 
 ```
 src/
-├── api/                    # API client and configuration
-│   ├── client.ts          # Axios instance with baseURL
-│   ├── endpoints.ts       # API endpoint constants
-│   └── interceptors.ts    # Request/response interceptors (auth, refresh)
-├── components/            # Reusable components
-│   ├── ui/               # shadcn/ui components
-│   ├── layout/           # Layout components (AppLayout, Sidebar, Header)
-│   └── data-table/       # Reusable data table component
-├── features/             # Feature-based modules
-│   ├── auth/            # Authentication (login, logout, current user)
-│   ├── items/           # Items CRUD example
-│   ├── users/           # Users admin management
-│   └── profile/         # User profile management
-├── hooks/               # Custom React hooks (usePermissions, useTheme)
-├── i18n/                # Internationalization
-│   ├── config.ts        # i18next configuration
-│   └── locales/         # Translation files (en, es)
-├── lib/                 # Utility libraries
-├── pages/               # Non-feature pages (Dashboard, NotFound, Unauthorized)
-├── routes/              # Routing configuration + ProtectedRoute
-├── store/               # Zustand state management
-│   └── slices/          # State slices (auth, ui)
-├── types/               # TypeScript types
-│   ├── models.ts        # Shared type definitions
-│   └── generated/       # Auto-generated API types (when available)
-└── test/                # Test utilities
+├── api/ # API client and configuration
+│ ├── client.ts # Axios instance with baseURL
+│ ├── endpoints.ts # API endpoint constants
+│ └── interceptors.ts # Request/response interceptors (auth, refresh)
+├── components/ # Reusable components
+│ ├── ui/ # shadcn/ui components
+│ ├── layout/ # Layout components (AppLayout, Sidebar, Header)
+│ └── data-table/ # Reusable data table component
+├── features/ # Feature-based modules
+│ ├── auth/ # Authentication (login, logout, current user)
+│ ├── items/ # Items CRUD example
+│ ├── users/ # Users admin management
+│ └── profile/ # User profile management
+├── hooks/ # Custom React hooks (usePermissions, useTheme)
+├── i18n/ # Internationalization
+│ ├── config.ts # i18next configuration
+│ └── locales/ # Translation files (en, es)
+├── lib/ # Utility libraries
+├── pages/ # Non-feature pages (Dashboard, NotFound, Unauthorized)
+├── routes/ # Routing configuration + ProtectedRoute
+├── store/ # Zustand state management
+│ └── slices/ # State slices (auth, ui)
+├── types/ # TypeScript types
+│ ├── models.ts # Shared type definitions
+│ └── generated/ # Auto-generated API types (when available)
+└── test/ # Test utilities
 ```
 
 ## Environment Variables
@@ -142,12 +149,12 @@ The boilerplate includes a complete authentication system:
 ```tsx
 // Protect a route
 <ProtectedRoute requiredPermissions={['users:read']}>
-  <UsersPage />
+ <UsersPage />
 </ProtectedRoute>
 
 // Permission-based rendering
 <Can perform="users:write">
-  <Button>Create User</Button>
+ <Button>Create User</Button>
 </Can>
 ```
 
@@ -178,24 +185,24 @@ import { API_ENDPOINTS } from '@/api/endpoints'
 import type { User } from '@/types/models'
 
 export const usersApi = {
-  getUsers: async () => {
-    const response = await apiClient.get<User[]>(API_ENDPOINTS.USERS.LIST)
-    return response.data
-  },
+ getUsers: async () => {
+ const response = await apiClient.get<User[]>(API_ENDPOINTS.USERS.LIST)
+ return response.data
+ },
 }
 
 // 2. Create React Query hook (src/features/<name>/hooks/use-<name>.ts)
 export function useUsers() {
-  return useQuery({
-    queryKey: ['users'],
-    queryFn: usersApi.getUsers,
-  })
+ return useQuery({
+ queryKey: ['users'],
+ queryFn: usersApi.getUsers,
+ })
 }
 
 // 3. Use in component
 function UsersPage() {
-  const { data, isLoading } = useUsers()
-  // ...
+ const { data, isLoading } = useUsers()
+ // ...
 }
 ```
 
@@ -207,8 +214,8 @@ Switch between English and Spanish:
 import { useTranslation } from 'react-i18next'
 
 function MyComponent() {
-  const { t } = useTranslation()
-  return <h1>{t('common.welcome')}</h1>
+ const { t } = useTranslation()
+ return <h1>{t('common.welcome')}</h1>
 }
 ```
 
@@ -220,8 +227,8 @@ Toggle between light, dark, and system themes:
 import { useTheme } from '@/hooks/use-theme'
 
 function ThemeToggle() {
-  const { theme, setTheme } = useTheme()
-  return <button onClick={() => setTheme('dark')}>Dark Mode</button>
+ const { theme, setTheme } = useTheme()
+ return <button onClick={() => setTheme('dark')}>Dark Mode</button>
 }
 ```
 

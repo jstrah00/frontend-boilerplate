@@ -25,25 +25,25 @@ Create validation schema:
 import { z } from 'zod'
 
 export const productCreateSchema = z.object({
-  name: z.string()
-    .min(1, 'Name is required')
-    .max(100, 'Name is too long'),
+ name: z.string()
+ .min(1, 'Name is required')
+ .max(100, 'Name is too long'),
 
-  description: z.string()
-    .min(10, 'Description must be at least 10 characters')
-    .max(500, 'Description is too long')
-    .optional(),
+ description: z.string()
+ .min(10, 'Description must be at least 10 characters')
+ .max(500, 'Description is too long')
+ .optional(),
 
-  price: z.coerce.number()
-    .positive('Price must be positive')
-    .max(1000000, 'Price is too high'),
+ price: z.coerce.number()
+ .positive('Price must be positive')
+ .max(1000000, 'Price is too high'),
 
-  sku: z.string()
-    .regex(/^[A-Z0-9-]+$/, 'SKU must be uppercase letters, numbers, and hyphens'),
+ sku: z.string()
+ .regex(/^[A-Z0-9-]+$/, 'SKU must be uppercase letters, numbers, and hyphens'),
 
-  category_id: z.string().uuid('Invalid category'),
+ category_id: z.string().uuid('Invalid category'),
 
-  is_active: z.boolean().default(true),
+ is_active: z.boolean().default(true),
 })
 
 export type ProductCreateInput = z.infer<typeof productCreateSchema>
@@ -80,11 +80,11 @@ z.string().regex(/^[A-Z]+$/, 'Must be uppercase')
 
 // Refine (custom validation)
 z.object({
-  password: z.string(),
-  confirm: z.string()
+ password: z.string(),
+ confirm: z.string()
 }).refine((data) => data.password === data.confirm, {
-  message: "Passwords don't match",
-  path: ['confirm'] // Which field to show error on
+ message: "Passwords don't match",
+ path: ['confirm'] // Which field to show error on
 })
 ```
 
@@ -115,56 +115,56 @@ import { Textarea } from '@/components/ui/textarea'
 import { productCreateSchema, ProductCreateInput } from '../schemas'
 
 interface ProductFormProps {
-  onSubmit: (data: ProductCreateInput) => void
-  isLoading?: boolean
-  defaultValues?: Partial<ProductCreateInput>
+ onSubmit: (data: ProductCreateInput) => void
+ isLoading?: boolean
+ defaultValues?: Partial<ProductCreateInput>
 }
 
 export function ProductForm({ onSubmit, isLoading, defaultValues }: ProductFormProps) {
-  const { t } = useTranslation()
+ const { t } = useTranslation()
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<ProductCreateInput>({
-    resolver: zodResolver(productCreateSchema),
-    defaultValues,
-  })
+ const {
+ register,
+ handleSubmit,
+ formState: { errors },
+ } = useForm<ProductCreateInput>({
+ resolver: zodResolver(productCreateSchema),
+ defaultValues,
+ })
 
-  return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <div className="space-y-2">
-        <Label htmlFor="name">{t('products.form.name')}</Label>
-        <Input
-          id="name"
-          placeholder={t('products.form.namePlaceholder')}
-          {...register('name')}
-        />
-        {errors.name && (
-          <p className="text-sm text-destructive">{errors.name.message}</p>
-        )}
-      </div>
+ return (
+ <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+ <div className="space-y-2">
+ <Label htmlFor="name">{t('products.form.name')}</Label>
+ <Input
+ id="name"
+ placeholder={t('products.form.namePlaceholder')}
+ {...register('name')}
+ />
+ {errors.name && (
+ <p className="text-sm text-destructive">{errors.name.message}</p>
+ )}
+ </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="price">{t('products.form.price')}</Label>
-        <Input
-          id="price"
-          type="number"
-          step="0.01"
-          placeholder="0.00"
-          {...register('price')}
-        />
-        {errors.price && (
-          <p className="text-sm text-destructive">{errors.price.message}</p>
-        )}
-      </div>
+ <div className="space-y-2">
+ <Label htmlFor="price">{t('products.form.price')}</Label>
+ <Input
+ id="price"
+ type="number"
+ step="0.01"
+ placeholder="0.00"
+ {...register('price')}
+ />
+ {errors.price && (
+ <p className="text-sm text-destructive">{errors.price.message}</p>
+ )}
+ </div>
 
-      <Button type="submit" disabled={isLoading}>
-        {isLoading ? t('common.saving') : t('common.save')}
-      </Button>
-    </form>
-  )
+ <Button type="submit" disabled={isLoading}>
+ {isLoading ? t('common.saving') : t('common.save')}
+ </Button>
+ </form>
+ )
 }
 ```
 
@@ -174,15 +174,15 @@ export function ProductForm({ onSubmit, isLoading, defaultValues }: ProductFormP
 
 ```typescript
 <div className="space-y-2">
-  <Label htmlFor="name">{t('field.label')}</Label>
-  <Input
-    id="name"
-    placeholder={t('field.placeholder')}
-    {...register('name')}
-  />
-  {errors.name && (
-    <p className="text-sm text-destructive">{errors.name.message}</p>
-  )}
+ <Label htmlFor="name">{t('field.label')}</Label>
+ <Input
+ id="name"
+ placeholder={t('field.placeholder')}
+ {...register('name')}
+ />
+ {errors.name && (
+ <p className="text-sm text-destructive">{errors.name.message}</p>
+ )}
 </div>
 ```
 
@@ -190,16 +190,16 @@ export function ProductForm({ onSubmit, isLoading, defaultValues }: ProductFormP
 
 ```typescript
 <div className="space-y-2">
-  <Label htmlFor="description">{t('field.label')}</Label>
-  <Textarea
-    id="description"
-    rows={4}
-    placeholder={t('field.placeholder')}
-    {...register('description')}
-  />
-  {errors.description && (
-    <p className="text-sm text-destructive">{errors.description.message}</p>
-  )}
+ <Label htmlFor="description">{t('field.label')}</Label>
+ <Textarea
+ id="description"
+ rows={4}
+ placeholder={t('field.placeholder')}
+ {...register('description')}
+ />
+ {errors.description && (
+ <p className="text-sm text-destructive">{errors.description.message}</p>
+ )}
 </div>
 ```
 
@@ -207,18 +207,18 @@ export function ProductForm({ onSubmit, isLoading, defaultValues }: ProductFormP
 
 ```typescript
 <div className="space-y-2">
-  <Label htmlFor="price">{t('field.label')}</Label>
-  <Input
-    id="price"
-    type="number"
-    step="0.01"
-    min="0"
-    placeholder="0.00"
-    {...register('price')}
-  />
-  {errors.price && (
-    <p className="text-sm text-destructive">{errors.price.message}</p>
-  )}
+ <Label htmlFor="price">{t('field.label')}</Label>
+ <Input
+ id="price"
+ type="number"
+ step="0.01"
+ min="0"
+ placeholder="0.00"
+ {...register('price')}
+ />
+ {errors.price && (
+ <p className="text-sm text-destructive">{errors.price.message}</p>
+ )}
 </div>
 ```
 
@@ -229,28 +229,28 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Controller } from 'react-hook-form'
 
 <div className="space-y-2">
-  <Label htmlFor="category">{t('field.label')}</Label>
-  <Controller
-    name="category_id"
-    control={control}
-    render={({ field }) => (
-      <Select onValueChange={field.onChange} value={field.value}>
-        <SelectTrigger>
-          <SelectValue placeholder={t('field.placeholder')} />
-        </SelectTrigger>
-        <SelectContent>
-          {categories.map((cat) => (
-            <SelectItem key={cat.id} value={cat.id}>
-              {cat.name}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    )}
-  />
-  {errors.category_id && (
-    <p className="text-sm text-destructive">{errors.category_id.message}</p>
-  )}
+ <Label htmlFor="category">{t('field.label')}</Label>
+ <Controller
+ name="category_id"
+ control={control}
+ render={({ field }) => (
+ <Select onValueChange={field.onChange} value={field.value}>
+ <SelectTrigger>
+ <SelectValue placeholder={t('field.placeholder')} />
+ </SelectTrigger>
+ <SelectContent>
+ {categories.map((cat) => (
+ <SelectItem key={cat.id} value={cat.id}>
+ {cat.name}
+ </SelectItem>
+ ))}
+ </SelectContent>
+ </Select>
+ )}
+ />
+ {errors.category_id && (
+ <p className="text-sm text-destructive">{errors.category_id.message}</p>
+ )}
 </div>
 ```
 
@@ -261,18 +261,18 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Controller } from 'react-hook-form'
 
 <div className="flex items-center space-x-2">
-  <Controller
-    name="is_active"
-    control={control}
-    render={({ field }) => (
-      <Checkbox
-        id="is_active"
-        checked={field.value}
-        onCheckedChange={field.onChange}
-      />
-    )}
-  />
-  <Label htmlFor="is_active">{t('field.label')}</Label>
+ <Controller
+ name="is_active"
+ control={control}
+ render={({ field }) => (
+ <Checkbox
+ id="is_active"
+ checked={field.value}
+ onCheckedChange={field.onChange}
+ />
+ )}
+ />
+ <Label htmlFor="is_active">{t('field.label')}</Label>
 </div>
 ```
 
@@ -282,7 +282,7 @@ import { Controller } from 'react-hook-form'
 
 ```typescript
 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-  {/* Fields stacked vertically */}
+ {/* Fields stacked vertically */}
 </form>
 ```
 
@@ -290,15 +290,15 @@ import { Controller } from 'react-hook-form'
 
 ```typescript
 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <div className="space-y-2">
-      {/* First name */}
-    </div>
-    <div className="space-y-2">
-      {/* Last name */}
-    </div>
-  </div>
-  {/* More fields */}
+ <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+ <div className="space-y-2">
+ {/* First name */}
+ </div>
+ <div className="space-y-2">
+ {/* Last name */}
+ </div>
+ </div>
+ {/* More fields */}
 </form>
 ```
 
@@ -308,14 +308,14 @@ import { Controller } from 'react-hook-form'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 <Card>
-  <CardHeader>
-    <CardTitle>{t('form.title')}</CardTitle>
-  </CardHeader>
-  <CardContent>
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      {/* Fields */}
-    </form>
-  </CardContent>
+ <CardHeader>
+ <CardTitle>{t('form.title')}</CardTitle>
+ </CardHeader>
+ <CardContent>
+ <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+ {/* Fields */}
+ </form>
+ </CardContent>
 </Card>
 ```
 
@@ -327,39 +327,39 @@ For forms in dialogs (common pattern):
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 
 interface ProductFormDialogProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  onSubmit: (data: ProductCreateInput) => void
+ open: boolean
+ onOpenChange: (open: boolean) => void
+ onSubmit: (data: ProductCreateInput) => void
 }
 
 export function ProductFormDialog({ open, onOpenChange, onSubmit }: ProductFormDialogProps) {
-  const { t } = useTranslation()
-  const form = useForm<ProductCreateInput>({
-    resolver: zodResolver(productCreateSchema),
-  })
+ const { t } = useTranslation()
+ const form = useForm<ProductCreateInput>({
+ resolver: zodResolver(productCreateSchema),
+ })
 
-  const handleFormSubmit = (data: ProductCreateInput) => {
-    onSubmit(data)
-    form.reset()
-    onOpenChange(false)
-  }
+ const handleFormSubmit = (data: ProductCreateInput) => {
+ onSubmit(data)
+ form.reset()
+ onOpenChange(false)
+ }
 
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{t('products.form.createTitle')}</DialogTitle>
-        </DialogHeader>
-        <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-4">
-          {/* Fields using form.register */}
+ return (
+ <Dialog open={open} onOpenChange={onOpenChange}>
+ <DialogContent>
+ <DialogHeader>
+ <DialogTitle>{t('products.form.createTitle')}</DialogTitle>
+ </DialogHeader>
+ <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-4">
+ {/* Fields using form.register */}
 
-          <Button type="submit">
-            {t('common.create')}
-          </Button>
-        </form>
-      </DialogContent>
-    </Dialog>
-  )
+ <Button type="submit">
+ {t('common.create')}
+ </Button>
+ </form>
+ </DialogContent>
+ </Dialog>
+ )
 }
 ```
 
@@ -372,14 +372,14 @@ import { useCreateProduct } from '../hooks/use-products'
 import { ProductForm } from '../components/product-form'
 
 export function ProductsPage() {
-  const createProduct = useCreateProduct()
+ const createProduct = useCreateProduct()
 
-  return (
-    <ProductForm
-      onSubmit={(data) => createProduct.mutate(data)}
-      isLoading={createProduct.isPending}
-    />
-  )
+ return (
+ <ProductForm
+ onSubmit={(data) => createProduct.mutate(data)}
+ isLoading={createProduct.isPending}
+ />
+ )
 }
 ```
 
@@ -389,12 +389,12 @@ export function ProductsPage() {
 
 ```typescript
 <ProductForm
-  defaultValues={{
-    name: product.name,
-    price: product.price,
-  }}
-  onSubmit={(data) => updateProduct.mutate({ id: product.id, data })}
-  isLoading={updateProduct.isPending}
+ defaultValues={{
+ name: product.name,
+ price: product.price,
+ }}
+ onSubmit={(data) => updateProduct.mutate({ id: product.id, data })}
+ isLoading={updateProduct.isPending}
 />
 ```
 
@@ -402,11 +402,11 @@ export function ProductsPage() {
 
 ```typescript
 export const passwordSchema = z.object({
-  password: z.string().min(8, 'Password must be at least 8 characters'),
-  confirm: z.string()
+ password: z.string().min(8, 'Password must be at least 8 characters'),
+ confirm: z.string()
 }).refine((data) => data.password === data.confirm, {
-  message: "Passwords don't match",
-  path: ['confirm']
+ message: "Passwords don't match",
+ path: ['confirm']
 })
 ```
 
@@ -414,24 +414,24 @@ export const passwordSchema = z.object({
 
 ```typescript
 const form = useForm<ProductCreateInput>({
-  resolver: zodResolver(productCreateSchema),
+ resolver: zodResolver(productCreateSchema),
 })
 
 const handleSubmit = async (data: ProductCreateInput) => {
-  await createProduct.mutateAsync(data)
-  form.reset() // Clear form after success
+ await createProduct.mutateAsync(data)
+ form.reset() // Clear form after success
 }
 ```
 
 ## Validation Error Messages
 
 Keep error messages user-friendly:
-- ✅ "Name is required"
-- ✅ "Price must be positive"
-- ✅ "Email is invalid"
-- ❌ "Field cannot be empty"
-- ❌ "Invalid input"
-- ❌ "Validation failed"
+- [X] "Name is required"
+- [X] "Price must be positive"
+- [X] "Email is invalid"
+- [-] "Field cannot be empty"
+- [-] "Invalid input"
+- [-] "Validation failed"
 
 ## Reference Files
 

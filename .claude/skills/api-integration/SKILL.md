@@ -41,32 +41,32 @@ import { ProductCreateInput, ProductUpdateInput } from '../schemas'
 export type { Product, ProductsListResponse, ProductsListParams }
 
 export const productsApi = {
-  getProducts: async (params: ProductsListParams = {}): Promise<ProductsListResponse> => {
-    const { skip = 0, limit = 10, category, search } = params
-    const response = await apiClient.get(API_ENDPOINTS.PRODUCTS.LIST, {
-      params: { skip, limit, category, search },
-    })
-    return response.data
-  },
+ getProducts: async (params: ProductsListParams = {}): Promise<ProductsListResponse> => {
+ const { skip = 0, limit = 10, category, search } = params
+ const response = await apiClient.get(API_ENDPOINTS.PRODUCTS.LIST, {
+ params: { skip, limit, category, search },
+ })
+ return response.data
+ },
 
-  getProduct: async (id: string): Promise<Product> => {
-    const response = await apiClient.get(API_ENDPOINTS.PRODUCTS.DETAIL(id))
-    return response.data
-  },
+ getProduct: async (id: string): Promise<Product> => {
+ const response = await apiClient.get(API_ENDPOINTS.PRODUCTS.DETAIL(id))
+ return response.data
+ },
 
-  createProduct: async (data: ProductCreateInput): Promise<Product> => {
-    const response = await apiClient.post(API_ENDPOINTS.PRODUCTS.CREATE, data)
-    return response.data
-  },
+ createProduct: async (data: ProductCreateInput): Promise<Product> => {
+ const response = await apiClient.post(API_ENDPOINTS.PRODUCTS.CREATE, data)
+ return response.data
+ },
 
-  updateProduct: async (id: string, data: ProductUpdateInput): Promise<Product> => {
-    const response = await apiClient.patch(API_ENDPOINTS.PRODUCTS.UPDATE(id), data)
-    return response.data
-  },
+ updateProduct: async (id: string, data: ProductUpdateInput): Promise<Product> => {
+ const response = await apiClient.patch(API_ENDPOINTS.PRODUCTS.UPDATE(id), data)
+ return response.data
+ },
 
-  deleteProduct: async (id: string): Promise<void> => {
-    await apiClient.delete(API_ENDPOINTS.PRODUCTS.DELETE(id))
-  },
+ deleteProduct: async (id: string): Promise<void> => {
+ await apiClient.delete(API_ENDPOINTS.PRODUCTS.DELETE(id))
+ },
 }
 ```
 
@@ -76,14 +76,14 @@ Update `frontend/src/api/endpoints.ts`:
 
 ```typescript
 export const API_ENDPOINTS = {
-  // ... existing endpoints
-  PRODUCTS: {
-    LIST: '/v1/products',
-    DETAIL: (id: string) => `/v1/products/${id}`,
-    CREATE: '/v1/products',
-    UPDATE: (id: string) => `/v1/products/${id}`,
-    DELETE: (id: string) => `/v1/products/${id}`,
-  },
+ // ... existing endpoints
+ PRODUCTS: {
+ LIST: '/v1/products',
+ DETAIL: (id: string) => `/v1/products/${id}`,
+ CREATE: '/v1/products',
+ UPDATE: (id: string) => `/v1/products/${id}`,
+ DELETE: (id: string) => `/v1/products/${id}`,
+ },
 }
 ```
 
@@ -100,11 +100,11 @@ import { productsApi, ProductsListParams } from '../api/products.api'
 export const PRODUCTS_QUERY_KEY = 'products'
 
 export function useProducts(params: ProductsListParams = {}) {
-  return useQuery({
-    queryKey: [PRODUCTS_QUERY_KEY, params],
-    queryFn: () => productsApi.getProducts(params),
-    staleTime: 5 * 60 * 1000, // 5 minutes
-  })
+ return useQuery({
+ queryKey: [PRODUCTS_QUERY_KEY, params],
+ queryFn: () => productsApi.getProducts(params),
+ staleTime: 5 * 60 * 1000, // 5 minutes
+ })
 }
 ```
 
@@ -118,11 +118,11 @@ import { productsApi } from '../api/products.api'
 import { PRODUCTS_QUERY_KEY } from './use-products'
 
 export function useProduct(id: string) {
-  return useQuery({
-    queryKey: [PRODUCTS_QUERY_KEY, id],
-    queryFn: () => productsApi.getProduct(id),
-    enabled: !!id, // Only fetch if id exists
-  })
+ return useQuery({
+ queryKey: [PRODUCTS_QUERY_KEY, id],
+ queryFn: () => productsApi.getProduct(id),
+ enabled: !!id, // Only fetch if id exists
+ })
 }
 ```
 
@@ -139,19 +139,19 @@ import { PRODUCTS_QUERY_KEY } from './use-products'
 import type { ProductCreateInput } from '../schemas'
 
 export function useCreateProduct() {
-  const { t } = useTranslation()
-  const queryClient = useQueryClient()
+ const { t } = useTranslation()
+ const queryClient = useQueryClient()
 
-  return useMutation({
-    mutationFn: (data: ProductCreateInput) => productsApi.createProduct(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [PRODUCTS_QUERY_KEY] })
-      toast.success(t('products.toast.createSuccess'))
-    },
-    onError: (error: any) => {
-      toast.error(error.response?.data?.detail || t('products.toast.createError'))
-    },
-  })
+ return useMutation({
+ mutationFn: (data: ProductCreateInput) => productsApi.createProduct(data),
+ onSuccess: () => {
+ queryClient.invalidateQueries({ queryKey: [PRODUCTS_QUERY_KEY] })
+ toast.success(t('products.toast.createSuccess'))
+ },
+ onError: (error: any) => {
+ toast.error(error.response?.data?.detail || t('products.toast.createError'))
+ },
+ })
 }
 ```
 
@@ -168,22 +168,22 @@ import { PRODUCTS_QUERY_KEY } from './use-products'
 import type { ProductUpdateInput } from '../schemas'
 
 export function useUpdateProduct() {
-  const { t } = useTranslation()
-  const queryClient = useQueryClient()
+ const { t } = useTranslation()
+ const queryClient = useQueryClient()
 
-  return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: ProductUpdateInput }) =>
-      productsApi.updateProduct(id, data),
-    onSuccess: (_, variables) => {
-      // Invalidate both list and detail queries
-      queryClient.invalidateQueries({ queryKey: [PRODUCTS_QUERY_KEY] })
-      queryClient.invalidateQueries({ queryKey: [PRODUCTS_QUERY_KEY, variables.id] })
-      toast.success(t('products.toast.updateSuccess'))
-    },
-    onError: (error: any) => {
-      toast.error(error.response?.data?.detail || t('products.toast.updateError'))
-    },
-  })
+ return useMutation({
+ mutationFn: ({ id, data }: { id: string; data: ProductUpdateInput }) =>
+ productsApi.updateProduct(id, data),
+ onSuccess: (_, variables) => {
+ // Invalidate both list and detail queries
+ queryClient.invalidateQueries({ queryKey: [PRODUCTS_QUERY_KEY] })
+ queryClient.invalidateQueries({ queryKey: [PRODUCTS_QUERY_KEY, variables.id] })
+ toast.success(t('products.toast.updateSuccess'))
+ },
+ onError: (error: any) => {
+ toast.error(error.response?.data?.detail || t('products.toast.updateError'))
+ },
+ })
 }
 ```
 
@@ -199,19 +199,19 @@ import { productsApi } from '../api/products.api'
 import { PRODUCTS_QUERY_KEY } from './use-products'
 
 export function useDeleteProduct() {
-  const { t } = useTranslation()
-  const queryClient = useQueryClient()
+ const { t } = useTranslation()
+ const queryClient = useQueryClient()
 
-  return useMutation({
-    mutationFn: (id: string) => productsApi.deleteProduct(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [PRODUCTS_QUERY_KEY] })
-      toast.success(t('products.toast.deleteSuccess'))
-    },
-    onError: (error: any) => {
-      toast.error(error.response?.data?.detail || t('products.toast.deleteError'))
-    },
-  })
+ return useMutation({
+ mutationFn: (id: string) => productsApi.deleteProduct(id),
+ onSuccess: () => {
+ queryClient.invalidateQueries({ queryKey: [PRODUCTS_QUERY_KEY] })
+ toast.success(t('products.toast.deleteSuccess'))
+ },
+ onError: (error: any) => {
+ toast.error(error.response?.data?.detail || t('products.toast.deleteError'))
+ },
+ })
 }
 ```
 
@@ -263,36 +263,36 @@ For instant UI feedback:
 
 ```typescript
 export function useUpdateProduct() {
-  const queryClient = useQueryClient()
+ const queryClient = useQueryClient()
 
-  return useMutation({
-    mutationFn: ({ id, data }) => productsApi.updateProduct(id, data),
-    onMutate: async ({ id, data }) => {
-      // Cancel outgoing refetches
-      await queryClient.cancelQueries({ queryKey: [PRODUCTS_QUERY_KEY, id] })
+ return useMutation({
+ mutationFn: ({ id, data }) => productsApi.updateProduct(id, data),
+ onMutate: async ({ id, data }) => {
+ // Cancel outgoing refetches
+ await queryClient.cancelQueries({ queryKey: [PRODUCTS_QUERY_KEY, id] })
 
-      // Snapshot previous value
-      const previousProduct = queryClient.getQueryData([PRODUCTS_QUERY_KEY, id])
+ // Snapshot previous value
+ const previousProduct = queryClient.getQueryData([PRODUCTS_QUERY_KEY, id])
 
-      // Optimistically update
-      queryClient.setQueryData([PRODUCTS_QUERY_KEY, id], (old: Product) => ({
-        ...old,
-        ...data,
-      }))
+ // Optimistically update
+ queryClient.setQueryData([PRODUCTS_QUERY_KEY, id], (old: Product) => ({
+ ...old,
+ ...data,
+ }))
 
-      return { previousProduct }
-    },
-    onError: (err, variables, context) => {
-      // Rollback on error
-      queryClient.setQueryData(
-        [PRODUCTS_QUERY_KEY, variables.id],
-        context?.previousProduct
-      )
-    },
-    onSettled: (_, __, variables) => {
-      queryClient.invalidateQueries({ queryKey: [PRODUCTS_QUERY_KEY, variables.id] })
-    },
-  })
+ return { previousProduct }
+ },
+ onError: (err, variables, context) => {
+ // Rollback on error
+ queryClient.setQueryData(
+ [PRODUCTS_QUERY_KEY, variables.id],
+ context?.previousProduct
+ )
+ },
+ onSettled: (_, __, variables) => {
+ queryClient.invalidateQueries({ queryKey: [PRODUCTS_QUERY_KEY, variables.id] })
+ },
+ })
 }
 ```
 
@@ -300,11 +300,11 @@ export function useUpdateProduct() {
 
 ```typescript
 export function useProducts(params: ProductsListParams = {}) {
-  return useQuery({
-    queryKey: [PRODUCTS_QUERY_KEY, params],
-    queryFn: () => productsApi.getProducts(params),
-    keepPreviousData: true, // Show old data while fetching new page
-  })
+ return useQuery({
+ queryKey: [PRODUCTS_QUERY_KEY, params],
+ queryFn: () => productsApi.getProducts(params),
+ keepPreviousData: true, // Show old data while fetching new page
+ })
 }
 ```
 
@@ -312,15 +312,15 @@ export function useProducts(params: ProductsListParams = {}) {
 
 ```typescript
 export function useInfiniteProducts() {
-  return useInfiniteQuery({
-    queryKey: [PRODUCTS_QUERY_KEY],
-    queryFn: ({ pageParam = 0 }) =>
-      productsApi.getProducts({ skip: pageParam, limit: 20 }),
-    getNextPageParam: (lastPage, pages) => {
-      const nextSkip = pages.length * 20
-      return lastPage.items.length === 20 ? nextSkip : undefined
-    },
-  })
+ return useInfiniteQuery({
+ queryKey: [PRODUCTS_QUERY_KEY],
+ queryFn: ({ pageParam = 0 }) =>
+ productsApi.getProducts({ skip: pageParam, limit: 20 }),
+ getNextPageParam: (lastPage, pages) => {
+ const nextSkip = pages.length * 20
+ return lastPage.items.length === 20 ? nextSkip : undefined
+ },
+ })
 }
 ```
 
@@ -330,27 +330,27 @@ export function useInfiniteProducts() {
 import { useProducts, useCreateProduct } from '../hooks'
 
 export function ProductsPage() {
-  const { data: products, isLoading, error } = useProducts({ limit: 20 })
-  const createProduct = useCreateProduct()
+ const { data: products, isLoading, error } = useProducts({ limit: 20 })
+ const createProduct = useCreateProduct()
 
-  const handleCreate = (data: ProductCreateInput) => {
-    createProduct.mutate(data)
-  }
+ const handleCreate = (data: ProductCreateInput) => {
+ createProduct.mutate(data)
+ }
 
-  if (isLoading) return <Loading />
-  if (error) return <Error message={error.message} />
+ if (isLoading) return <Loading />
+ if (error) return <Error message={error.message} />
 
-  return (
-    <div>
-      {products?.items.map((product) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
-      <ProductForm
-        onSubmit={handleCreate}
-        isLoading={createProduct.isPending}
-      />
-    </div>
-  )
+ return (
+ <div>
+ {products?.items.map((product) => (
+ <ProductCard key={product.id} product={product} />
+ ))}
+ <ProductForm
+ onSubmit={handleCreate}
+ isLoading={createProduct.isPending}
+ />
+ </div>
+ )
 }
 ```
 
@@ -371,8 +371,8 @@ Backend errors are automatically caught by axios interceptor, but mutations shou
 
 ```typescript
 onError: (error: any) => {
-  const message = error.response?.data?.detail || t('common.error')
-  toast.error(message)
+ const message = error.response?.data?.detail || t('common.error')
+ toast.error(message)
 }
 ```
 

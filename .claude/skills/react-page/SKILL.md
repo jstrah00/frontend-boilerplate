@@ -42,57 +42,57 @@ import { useProducts } from '../hooks'
 import { ProductCard } from '../components/product-card'
 
 export function ProductsPage() {
-  const { t } = useTranslation()
-  const { data: products, isLoading, error } = useProducts()
+ const { t } = useTranslation()
+ const { data: products, isLoading, error } = useProducts()
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <p className="text-muted-foreground">{t('common.loading')}</p>
-      </div>
-    )
-  }
+ if (isLoading) {
+ return (
+ <div className="flex items-center justify-center h-64">
+ <p className="text-muted-foreground">{t('common.loading')}</p>
+ </div>
+ )
+ }
 
-  if (error) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <p className="text-destructive">{t('common.error')}</p>
-      </div>
-    )
-  }
+ if (error) {
+ return (
+ <div className="flex items-center justify-center h-64">
+ <p className="text-destructive">{t('common.error')}</p>
+ </div>
+ )
+ }
 
-  return (
-    <div className="container py-6 space-y-6">
-      {/* Header */}
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">
-            {t('products.title')}
-          </h1>
-          <p className="text-muted-foreground">
-            {t('products.description')}
-          </p>
-        </div>
-        <Button>
-          <Plus className="h-4 w-4 mr-2" />
-          {t('products.actions.create')}
-        </Button>
-      </div>
+ return (
+ <div className="container py-6 space-y-6">
+ {/* Header */}
+ <div className="flex justify-between items-center">
+ <div>
+ <h1 className="text-3xl font-bold tracking-tight">
+ {t('products.title')}
+ </h1>
+ <p className="text-muted-foreground">
+ {t('products.description')}
+ </p>
+ </div>
+ <Button>
+ <Plus className="h-4 w-4 mr-2" />
+ {t('products.actions.create')}
+ </Button>
+ </div>
 
-      {/* Content */}
-      {products && products.items.length === 0 ? (
-        <div className="text-center py-12 text-muted-foreground">
-          {t('products.empty')}
-        </div>
-      ) : (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {products?.items.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      )}
-    </div>
-  )
+ {/* Content */}
+ {products && products.items.length === 0 ? (
+ <div className="text-center py-12 text-muted-foreground">
+ {t('products.empty')}
+ </div>
+ ) : (
+ <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+ {products?.items.map((product) => (
+ <ProductCard key={product.id} product={product} />
+ ))}
+ </div>
+ )}
+ </div>
+ )
 }
 ```
 
@@ -106,33 +106,33 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useAuth } from '@/store'
 
 export function DashboardPage() {
-  const { t } = useTranslation()
-  const { user } = useAuth()
+ const { t } = useTranslation()
+ const { user } = useAuth()
 
-  return (
-    <div className="container py-6 space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">
-          {t('dashboard.title')}
-        </h1>
-        <p className="text-muted-foreground">
-          {t('dashboard.welcome', { name: user?.first_name })}
-        </p>
-      </div>
+ return (
+ <div className="container py-6 space-y-6">
+ <div>
+ <h1 className="text-3xl font-bold tracking-tight">
+ {t('dashboard.title')}
+ </h1>
+ <p className="text-muted-foreground">
+ {t('dashboard.welcome', { name: user?.first_name })}
+ </p>
+ </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader>
-            <CardTitle>{t('dashboard.stats.users')}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold">1,234</p>
-          </CardContent>
-        </Card>
-        {/* More cards */}
-      </div>
-    </div>
-  )
+ <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+ <Card>
+ <CardHeader>
+ <CardTitle>{t('dashboard.stats.users')}</CardTitle>
+ </CardHeader>
+ <CardContent>
+ <p className="text-3xl font-bold">1,234</p>
+ </CardContent>
+ </Card>
+ {/* More cards */}
+ </div>
+ </div>
+ )
 }
 ```
 
@@ -147,8 +147,8 @@ import { DashboardPage } from '@/pages/dashboard-page'
 
 // In routes array
 {
-  path: '/dashboard',
-  element: <DashboardPage />,
+ path: '/dashboard',
+ element: <DashboardPage />,
 }
 ```
 
@@ -160,12 +160,12 @@ import { ProtectedRoute } from './protected-route'
 
 // In routes array
 {
-  path: '/products',
-  element: (
-    <ProtectedRoute>
-      <ProductsPage />
-    </ProtectedRoute>
-  ),
+ path: '/products',
+ element: (
+ <ProtectedRoute>
+ <ProductsPage />
+ </ProtectedRoute>
+ ),
 }
 ```
 
@@ -177,12 +177,12 @@ import { ProtectedRoute } from './protected-route'
 
 // In routes array
 {
-  path: '/users',
-  element: (
-    <ProtectedRoute requiredPermissions={['users:read']}>
-      <UsersPage />
-    </ProtectedRoute>
-  ),
+ path: '/users',
+ element: (
+ <ProtectedRoute requiredPermissions={['users:read']}>
+ <UsersPage />
+ </ProtectedRoute>
+ ),
 }
 ```
 
@@ -194,17 +194,17 @@ import { ProductDetailPage } from '@/features/products/pages/product-detail-page
 
 // In routes array
 {
-  path: '/products',
-  children: [
-    {
-      index: true,
-      element: <ProtectedRoute><ProductsPage /></ProtectedRoute>,
-    },
-    {
-      path: ':id',
-      element: <ProtectedRoute><ProductDetailPage /></ProtectedRoute>,
-    },
-  ],
+ path: '/products',
+ children: [
+ {
+ index: true,
+ element: <ProtectedRoute><ProductsPage /></ProtectedRoute>,
+ },
+ {
+ path: ':id',
+ element: <ProtectedRoute><ProductDetailPage /></ProtectedRoute>,
+ },
+ ],
 }
 ```
 
@@ -214,18 +214,18 @@ import { ProductDetailPage } from '@/features/products/pages/product-detail-page
 
 ```typescript
 <div className="container py-6 space-y-6">
-  <div className="flex justify-between items-center">
-    <div>
-      <h1 className="text-3xl font-bold">{t('page.title')}</h1>
-      <p className="text-muted-foreground">{t('page.description')}</p>
-    </div>
-    <div className="flex gap-2">
-      <Button variant="outline">{t('common.filter')}</Button>
-      <Button>{t('common.create')}</Button>
-    </div>
-  </div>
+ <div className="flex justify-between items-center">
+ <div>
+ <h1 className="text-3xl font-bold">{t('page.title')}</h1>
+ <p className="text-muted-foreground">{t('page.description')}</p>
+ </div>
+ <div className="flex gap-2">
+ <Button variant="outline">{t('common.filter')}</Button>
+ <Button>{t('common.create')}</Button>
+ </div>
+ </div>
 
-  {/* Content */}
+ {/* Content */}
 </div>
 ```
 
@@ -235,27 +235,27 @@ import { ProductDetailPage } from '@/features/products/pages/product-detail-page
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 <div className="container py-6 space-y-6">
-  <h1 className="text-3xl font-bold">{t('settings.title')}</h1>
+ <h1 className="text-3xl font-bold">{t('settings.title')}</h1>
 
-  <Tabs defaultValue="profile">
-    <TabsList>
-      <TabsTrigger value="profile">{t('settings.tabs.profile')}</TabsTrigger>
-      <TabsTrigger value="security">{t('settings.tabs.security')}</TabsTrigger>
-      <TabsTrigger value="billing">{t('settings.tabs.billing')}</TabsTrigger>
-    </TabsList>
+ <Tabs defaultValue="profile">
+ <TabsList>
+ <TabsTrigger value="profile">{t('settings.tabs.profile')}</TabsTrigger>
+ <TabsTrigger value="security">{t('settings.tabs.security')}</TabsTrigger>
+ <TabsTrigger value="billing">{t('settings.tabs.billing')}</TabsTrigger>
+ </TabsList>
 
-    <TabsContent value="profile">
-      {/* Profile settings */}
-    </TabsContent>
+ <TabsContent value="profile">
+ {/* Profile settings */}
+ </TabsContent>
 
-    <TabsContent value="security">
-      {/* Security settings */}
-    </TabsContent>
+ <TabsContent value="security">
+ {/* Security settings */}
+ </TabsContent>
 
-    <TabsContent value="billing">
-      {/* Billing settings */}
-    </TabsContent>
-  </Tabs>
+ <TabsContent value="billing">
+ {/* Billing settings */}
+ </TabsContent>
+ </Tabs>
 </div>
 ```
 
@@ -263,25 +263,25 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 ```typescript
 <div className="container py-6">
-  <div className="flex gap-6">
-    {/* Sidebar */}
-    <aside className="w-64 space-y-4">
-      <nav className="space-y-1">
-        <Button variant="ghost" className="w-full justify-start">
-          {t('settings.nav.profile')}
-        </Button>
-        <Button variant="ghost" className="w-full justify-start">
-          {t('settings.nav.security')}
-        </Button>
-      </nav>
-    </aside>
+ <div className="flex gap-6">
+ {/* Sidebar */}
+ <aside className="w-64 space-y-4">
+ <nav className="space-y-1">
+ <Button variant="ghost" className="w-full justify-start">
+ {t('settings.nav.profile')}
+ </Button>
+ <Button variant="ghost" className="w-full justify-start">
+ {t('settings.nav.security')}
+ </Button>
+ </nav>
+ </aside>
 
-    {/* Main content */}
-    <main className="flex-1 space-y-6">
-      <h1 className="text-3xl font-bold">{t('settings.title')}</h1>
-      {/* Content */}
-    </main>
-  </div>
+ {/* Main content */}
+ <main className="flex-1 space-y-6">
+ <h1 className="text-3xl font-bold">{t('settings.title')}</h1>
+ {/* Content */}
+ </main>
+ </div>
 </div>
 ```
 
@@ -289,26 +289,26 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 ```typescript
 export function ProductsPage() {
-  const { data: products, isLoading } = useProducts()
+ const { data: products, isLoading } = useProducts()
 
-  if (isLoading) {
-    return (
-      <div className="container py-6">
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <Card key={i}>
-              <CardContent className="p-6">
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-2/3" />
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
-    )
-  }
+ if (isLoading) {
+ return (
+ <div className="container py-6">
+ <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+ {Array.from({ length: 6 }).map((_, i) => (
+ <Card key={i}>
+ <CardContent className="p-6">
+ <Skeleton className="h-4 w-full mb-2" />
+ <Skeleton className="h-4 w-2/3" />
+ </CardContent>
+ </Card>
+ ))}
+ </div>
+ </div>
+ )
+ }
 
-  return (/* Normal page content */)
+ return (/* Normal page content */)
 }
 ```
 
@@ -316,24 +316,24 @@ export function ProductsPage() {
 
 ```typescript
 export function ProductsPage() {
-  const { data: products, error } = useProducts()
+ const { data: products, error } = useProducts()
 
-  if (error) {
-    return (
-      <div className="container py-6">
-        <div className="flex flex-col items-center justify-center h-64 space-y-4">
-          <p className="text-lg text-destructive">
-            {t('products.error.loadFailed')}
-          </p>
-          <Button onClick={() => window.location.reload()}>
-            {t('common.retry')}
-          </Button>
-        </div>
-      </div>
-    )
-  }
+ if (error) {
+ return (
+ <div className="container py-6">
+ <div className="flex flex-col items-center justify-center h-64 space-y-4">
+ <p className="text-lg text-destructive">
+ {t('products.error.loadFailed')}
+ </p>
+ <Button onClick={() => window.location.reload()}>
+ {t('common.retry')}
+ </Button>
+ </div>
+ </div>
+ )
+ }
 
-  return (/* Normal page content */)
+ return (/* Normal page content */)
 }
 ```
 
@@ -341,23 +341,23 @@ export function ProductsPage() {
 
 ```typescript
 {products && products.items.length === 0 ? (
-  <div className="flex flex-col items-center justify-center h-64 space-y-4">
-    <div className="rounded-full bg-muted p-6">
-      <PackageX className="h-12 w-12 text-muted-foreground" />
-    </div>
-    <div className="text-center space-y-2">
-      <p className="text-lg font-medium">{t('products.empty.title')}</p>
-      <p className="text-sm text-muted-foreground">
-        {t('products.empty.description')}
-      </p>
-    </div>
-    <Button onClick={() => setCreateDialogOpen(true)}>
-      <Plus className="h-4 w-4 mr-2" />
-      {t('products.actions.createFirst')}
-    </Button>
-  </div>
+ <div className="flex flex-col items-center justify-center h-64 space-y-4">
+ <div className="rounded-full bg-muted p-6">
+ <PackageX className="h-12 w-12 text-muted-foreground" />
+ </div>
+ <div className="text-center space-y-2">
+ <p className="text-lg font-medium">{t('products.empty.title')}</p>
+ <p className="text-sm text-muted-foreground">
+ {t('products.empty.description')}
+ </p>
+ </div>
+ <Button onClick={() => setCreateDialogOpen(true)}>
+ <Plus className="h-4 w-4 mr-2" />
+ {t('products.actions.createFirst')}
+ </Button>
+ </div>
 ) : (
-  // List of products
+ // List of products
 )}
 ```
 
@@ -370,15 +370,15 @@ import { Link } from '@tanstack/react-router'
 import { ChevronRight } from 'lucide-react'
 
 <div className="container py-6 space-y-6">
-  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-    <Link to="/products" className="hover:text-foreground">
-      {t('products.title')}
-    </Link>
-    <ChevronRight className="h-4 w-4" />
-    <span className="text-foreground">{product.name}</span>
-  </div>
+ <div className="flex items-center gap-2 text-sm text-muted-foreground">
+ <Link to="/products" className="hover:text-foreground">
+ {t('products.title')}
+ </Link>
+ <ChevronRight className="h-4 w-4" />
+ <span className="text-foreground">{product.name}</span>
+ </div>
 
-  {/* Page content */}
+ {/* Page content */}
 </div>
 ```
 
@@ -391,10 +391,10 @@ import { Package } from 'lucide-react'
 
 // Add to navigation items
 {
-  to: '/products',
-  label: t('nav.products'),
-  icon: <Package className="h-4 w-4" />,
-  requiredPermission: 'products:read',
+ to: '/products',
+ label: t('nav.products'),
+ icon: <Package className="h-4 w-4" />,
+ requiredPermission: 'products:read',
 }
 ```
 
@@ -404,24 +404,24 @@ Add to `frontend/src/i18n/locales/en/translation.json`:
 
 ```json
 {
-  "products": {
-    "title": "Products",
-    "description": "Manage your product catalog",
-    "empty": {
-      "title": "No products yet",
-      "description": "Get started by creating your first product",
-    },
-    "error": {
-      "loadFailed": "Failed to load products"
-    },
-    "actions": {
-      "create": "Create Product",
-      "createFirst": "Create your first product"
-    }
-  },
-  "nav": {
-    "products": "Products"
-  }
+ "products": {
+ "title": "Products",
+ "description": "Manage your product catalog",
+ "empty": {
+ "title": "No products yet",
+ "description": "Get started by creating your first product",
+ },
+ "error": {
+ "loadFailed": "Failed to load products"
+ },
+ "actions": {
+ "create": "Create Product",
+ "createFirst": "Create your first product"
+ }
+ },
+ "nav": {
+ "products": "Products"
+ }
 }
 ```
 
@@ -434,13 +434,13 @@ import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export function ProductsPage() {
-  const { t } = useTranslation()
+ const { t } = useTranslation()
 
-  useEffect(() => {
-    document.title = `${t('products.title')} - ${t('app.name')}`
-  }, [t])
+ useEffect(() => {
+ document.title = `${t('products.title')} - ${t('app.name')}`
+ }, [t])
 
-  return (/* Page content */)
+ return (/* Page content */)
 }
 ```
 

@@ -19,10 +19,10 @@ Some browser extensions (like ad blockers, privacy tools, or development tools) 
 
 1. Try disabling extensions one by one
 2. Common culprits:
-   - Privacy Badger
-   - uBlock Origin
-   - NoScript
-   - DuckDuckGo Privacy Essentials
+ - Privacy Badger
+ - uBlock Origin
+ - NoScript
+ - DuckDuckGo Privacy Essentials
 3. After disabling each extension, refresh the page to test
 
 ### Solution 3: Check CORS Configuration
@@ -52,35 +52,35 @@ If you see a different URL like `http://localhost:8000`, you may need to:
 If you see "Network Error" or "Blocked by DevTools":
 
 1. **Fix CORS in Backend**:
-   - Open `fastapi-boilerplate/.env`
-   - Update the CORS_ORIGINS line to include your frontend URL (IMPORTANT: use JSON array format):
-     ```
-     CORS_ORIGINS=["http://localhost:5173"]
-     ```
-   - Note: The value MUST be valid JSON array format (with quotes and square brackets)
-   - Restart the backend server:
-     ```bash
-     cd fastapi-boilerplate
-     # Press Ctrl+C to stop if running
-     uv run dev
-     ```
+ - Open `fastapi-boilerplate/.env`
+ - Update the CORS_ORIGINS line to include your frontend URL (IMPORTANT: use JSON array format):
+ ```
+ CORS_ORIGINS=["http://localhost:5173"]
+ ```
+ - Note: The value MUST be valid JSON array format (with quotes and square brackets)
+ - Restart the backend server:
+ ```bash
+ cd fastapi-boilerplate
+ # Press Ctrl+C to stop if running
+ uv run dev
+ ```
 
 2. **Verify CORS is working**:
-   - Refresh your frontend page
-   - Check browser DevTools → Network tab
-   - The requests should now succeed
+ - Refresh your frontend page
+ - Check browser DevTools → Network tab
+ - The requests should now succeed
 
 ### Check the Backend
 
 1. Verify the backend is running:
-   ```bash
-   curl http://localhost:8000/api/v1/items/
-   ```
+ ```bash
+ curl http://localhost:8000/api/v1/items/
+ ```
 
 2. Verify authentication:
-   ```bash
-   curl -H "Authorization: Bearer YOUR_TOKEN" http://localhost:8000/api/v1/items/
-   ```
+ ```bash
+ curl -H "Authorization: Bearer YOUR_TOKEN" http://localhost:8000/api/v1/items/
+ ```
 
 ### Check the Frontend
 
@@ -96,24 +96,24 @@ If you're logged out after refreshing the page:
 
 1. Check browser console for errors during auth initialization
 2. Verify localStorage has `access_token`:
-   - Open DevTools → Application/Storage → Local Storage
-   - Look for `access_token` key
+ - Open DevTools → Application/Storage → Local Storage
+ - Look for `access_token` key
 3. If token exists but auth fails, the token might be expired
 4. Clear localStorage and login again
 
 ## Issue: Theme Toggle Not Working
 
 1. Check if the theme is being saved:
-   - Open DevTools → Application/Storage → Local Storage
-   - Look for `app-theme` key
-   - It should be `light`, `dark`, or `system`
+ - Open DevTools → Application/Storage → Local Storage
+ - Look for `app-theme` key
+ - It should be `light`, `dark`, or `system`
 
 2. Check the HTML element:
-   - Inspect the `<html>` element
-   - It should have class `dark` when dark mode is active
+ - Inspect the `<html>` element
+ - It should have class `dark` when dark mode is active
 
 3. Clear cache and hard refresh:
-   - Press Ctrl+Shift+R (or Cmd+Shift+R on Mac)
+ - Press Ctrl+Shift+R (or Cmd+Shift+R on Mac)
 
 ## Getting Help
 

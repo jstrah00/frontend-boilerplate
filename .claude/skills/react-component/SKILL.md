@@ -53,27 +53,27 @@ import type { YourType } from '@/types/models' // or '@/types/generated/api'
 
 // 2. Props Interface
 interface YourComponentProps {
-  data: YourType
-  onAction?: (id: string) => void
-  className?: string
+ data: YourType
+ onAction?: (id: string) => void
+ className?: string
 }
 
 // 3. Component Function
 export function YourComponent({ data, onAction, className }: YourComponentProps) {
-  // 4. Hooks
-  const { t } = useTranslation()
+ // 4. Hooks
+ const { t } = useTranslation()
 
-  // 5. Event Handlers
-  const handleClick = () => {
-    onAction?.(data.id)
-  }
+ // 5. Event Handlers
+ const handleClick = () => {
+ onAction?.(data.id)
+ }
 
-  // 6. Render
-  return (
-    <div className={className}>
-      {/* JSX with Tailwind classes */}
-    </div>
-  )
+ // 6. Render
+ return (
+ <div className={className}>
+ {/* JSX with Tailwind classes */}
+ </div>
+ )
 }
 ```
 
@@ -88,26 +88,26 @@ import { useTranslation } from 'react-i18next'
 import type { User } from '@/types/models'
 
 interface UserCardProps {
-  user: User
-  className?: string
+ user: User
+ className?: string
 }
 
 export function UserCard({ user, className }: UserCardProps) {
-  const { t } = useTranslation()
+ const { t } = useTranslation()
 
-  return (
-    <Card className={className}>
-      <CardHeader>
-        <CardTitle>{user.name}</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-2">
-        <p className="text-sm text-muted-foreground">{user.email}</p>
-        <Badge variant={user.is_active ? 'success' : 'secondary'}>
-          {t(`users.status.${user.status}`)}
-        </Badge>
-      </CardContent>
-    </Card>
-  )
+ return (
+ <Card className={className}>
+ <CardHeader>
+ <CardTitle>{user.name}</CardTitle>
+ </CardHeader>
+ <CardContent className="space-y-2">
+ <p className="text-sm text-muted-foreground">{user.email}</p>
+ <Badge variant={user.is_active ? 'success' : 'secondary'}>
+ {t(`users.status.${user.status}`)}
+ </Badge>
+ </CardContent>
+ </Card>
+ )
 }
 ```
 
@@ -119,24 +119,24 @@ import { Trash2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
 interface DeleteButtonProps {
-  onDelete: () => void
-  disabled?: boolean
+ onDelete: () => void
+ disabled?: boolean
 }
 
 export function DeleteButton({ onDelete, disabled }: DeleteButtonProps) {
-  const { t } = useTranslation()
+ const { t } = useTranslation()
 
-  return (
-    <Button
-      variant="destructive"
-      size="sm"
-      onClick={onDelete}
-      disabled={disabled}
-    >
-      <Trash2 className="h-4 w-4 mr-2" />
-      {t('common.delete')}
-    </Button>
-  )
+ return (
+ <Button
+ variant="destructive"
+ size="sm"
+ onClick={onDelete}
+ disabled={disabled}
+ >
+ <Trash2 className="h-4 w-4 mr-2" />
+ {t('common.delete')}
+ </Button>
+ )
 }
 ```
 
@@ -148,32 +148,32 @@ import type { User } from '@/types/models'
 import { UserCard } from './user-card'
 
 interface UserListProps {
-  users: User[]
-  onUserClick?: (user: User) => void
+ users: User[]
+ onUserClick?: (user: User) => void
 }
 
 export function UserList({ users, onUserClick }: UserListProps) {
-  const { t } = useTranslation()
+ const { t } = useTranslation()
 
-  if (users.length === 0) {
-    return (
-      <div className="text-center py-8 text-muted-foreground">
-        {t('users.empty')}
-      </div>
-    )
-  }
+ if (users.length === 0) {
+ return (
+ <div className="text-center py-8 text-muted-foreground">
+ {t('users.empty')}
+ </div>
+ )
+ }
 
-  return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {users.map((user) => (
-        <UserCard
-          key={user.id}
-          user={user}
-          onClick={() => onUserClick?.(user)}
-        />
-      ))}
-    </div>
-  )
+ return (
+ <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+ {users.map((user) => (
+ <UserCard
+ key={user.id}
+ user={user}
+ onClick={() => onUserClick?.(user)}
+ />
+ ))}
+ </div>
+ )
 }
 ```
 
@@ -230,11 +230,11 @@ const { t } = useTranslation()
 **Always define props interface:**
 ```typescript
 interface ComponentProps {
-  required: string
-  optional?: number
-  callback?: (data: string) => void
-  children?: React.ReactNode
-  className?: string  // Allow className override
+ required: string
+ optional?: number
+ callback?: (data: string) => void
+ children?: React.ReactNode
+ className?: string // Allow className override
 }
 ```
 
@@ -243,7 +243,7 @@ interface ComponentProps {
 **Always use named exports:**
 ```typescript
 export function ComponentName({ props }: ComponentProps) {
-  // ...
+ // ...
 }
 ```
 
