@@ -32,6 +32,7 @@
     "dashboard": "Panel",
     "items": "Artículos",
     "users": "Usuarios",
+    "chat": "Chat",
     "profile": "Perfil",
     "settings": "Configuración"
   },
@@ -229,6 +230,16 @@
       "passwordChanged": "Contraseña cambiada exitosamente",
       "passwordChangeFailed": "Error al cambiar la contraseña"
     }
+  },
+  "chat": {
+    "title": "Chat",
+    "conversations": "Conversaciones",
+    "connecting": "Conectando al chat...",
+    "errorConnecting": "Error al conectar al chat",
+    "errorDetails": "No se pudo conectar al servicio de chat. Por favor, inténtelo más tarde.",
+    "newMessage": "Nuevo Mensaje",
+    "selectUser": "Selecciona un usuario para iniciar una conversación",
+    "noUsersAvailable": "No hay otros usuarios disponibles"
   },
   "errors": {
     "unauthorized": "No autorizado",

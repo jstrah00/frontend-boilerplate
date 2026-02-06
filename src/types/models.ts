@@ -88,3 +88,19 @@ export interface UsersListParams {
 // =============================================================================
 
 export type UserProfile = User
+
+// =============================================================================
+// Chat Types
+// =============================================================================
+
+export interface ChatTokenResponse {
+  token: string
+  api_key: string
+}
+
+export interface ChatUser {
+  id: string
+  first_name: string
+  last_name: string
+  email: string
+}

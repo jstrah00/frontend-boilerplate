@@ -27,4 +27,9 @@ export const API_ENDPOINTS = {
   PROFILE: {
     UPDATE: '/v1/profile',
   },
+  // Chat
+  CHAT: {
+    TOKEN: '/v1/chat/token',
+    USERS: '/v1/chat/users',
+  },
 } as const

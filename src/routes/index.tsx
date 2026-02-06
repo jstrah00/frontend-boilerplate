@@ -10,6 +10,7 @@ const DashboardPage = lazy(() => import('@/pages/dashboard-page').then(m => ({ d
 const UsersPage = lazy(() => import('@/features/users/pages/users-page').then(m => ({ default: m.UsersPage })))
 const ItemsPage = lazy(() => import('@/features/items/pages/items-page').then(m => ({ default: m.ItemsPage })))
 const ProfilePage = lazy(() => import('@/features/profile/pages/profile-page').then(m => ({ default: m.ProfilePage })))
+const ChatPage = lazy(() => import('@/features/chat/pages/chat-page').then(m => ({ default: m.ChatPage })))
 const NotFoundPage = lazy(() => import('@/pages/not-found-page').then(m => ({ default: m.NotFoundPage })))
 const UnauthorizedPage = lazy(() => import('@/pages/unauthorized-page').then(m => ({ default: m.UnauthorizedPage })))
 
@@ -64,6 +65,18 @@ export const router = createBrowserRouter([
         <AppLayout>
           <Suspense fallback={pageLoader}>
             <UsersPage />
+          </Suspense>
+        </AppLayout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/chat',
+    element: (
+      <ProtectedRoute>
+        <AppLayout>
+          <Suspense fallback={pageLoader}>
+            <ChatPage />
           </Suspense>
         </AppLayout>
       </ProtectedRoute>

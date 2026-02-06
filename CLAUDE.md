@@ -11,7 +11,7 @@ SPA consuming FastAPI REST API:
 
 ## Tech Stack
 
-Vite + React 18 + TypeScript | TailwindCSS V4 + shadcn/ui | Zustand + TanStack Query | React Router v6 + React Hook Form + Zod | Axios + i18next
+Vite + React 18 + TypeScript | TailwindCSS V4 + shadcn/ui | Zustand + TanStack Query | React Router v6 + React Hook Form + Zod | Axios + i18next | Stream Chat React SDK
 
 ## Commands
 ```bash
@@ -191,7 +191,7 @@ VITE_DEFAULT_LANGUAGE=en
 
 ## Reference Implementations
 
-Auth: `src/features/auth/` | CRUD: `src/features/items/` | Admin: `src/features/users/` | Single-entity: `src/features/profile/`
+Auth: `src/features/auth/` | CRUD: `src/features/items/` | Admin: `src/features/users/` | Single-entity: `src/features/profile/` | Third-party SDK: `src/features/chat/` (Stream Chat — external SDK components + custom hooks)
 
 ## Documentation
 

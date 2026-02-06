@@ -32,6 +32,7 @@
     "dashboard": "Dashboard",
     "items": "Items",
     "users": "Users",
+    "chat": "Chat",
     "profile": "Profile",
     "settings": "Settings"
   },
@@ -229,6 +230,16 @@
       "passwordChanged": "Password changed successfully",
       "passwordChangeFailed": "Failed to change password"
     }
+  },
+  "chat": {
+    "title": "Chat",
+    "conversations": "Conversations",
+    "connecting": "Connecting to chat...",
+    "errorConnecting": "Error connecting to chat",
+    "errorDetails": "Unable to connect to the chat service. Please try again later.",
+    "newMessage": "New Message",
+    "selectUser": "Select a user to start a conversation",
+    "noUsersAvailable": "No other users available"
   },
   "errors": {
     "unauthorized": "Unauthorized",

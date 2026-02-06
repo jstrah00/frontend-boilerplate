@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Package, Users, User } from 'lucide-react'
+import { LayoutDashboard, Package, Users, User, MessageCircle } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Can } from '@/components/can'
 import { useTranslation } from 'react-i18next'
@@ -26,6 +26,7 @@ export function Sidebar() {
   const navItems: NavItem[] = [
     { path: '/', label: t('navigation.dashboard'), icon: LayoutDashboard },
     { path: '/items', label: t('navigation.items'), icon: Package },
+    { path: '/chat', label: t('navigation.chat'), icon: MessageCircle },
     {
       path: '/users',
       label: t('navigation.users'),
