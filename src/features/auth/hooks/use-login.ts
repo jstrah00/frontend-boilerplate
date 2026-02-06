@@ -11,31 +11,21 @@ export function useLogin() {
 
   return useMutation({
     mutationFn: async (credentials: LoginCredentials) => {
-      // First, login and get tokens
-      const loginResponse = await authApi.login(credentials)
+      // Login - tokens are set as HttpOnly cookies by the backend
+      await authApi.login(credentials)
 
-      // Store tokens in localStorage
-      if (loginResponse.access_token) {
-        localStorage.setItem('access_token', loginResponse.access_token)
-      }
-      if (loginResponse.refresh_token) {
-        localStorage.setItem('refresh_token', loginResponse.refresh_token)
-      }
-
-      // Then, fetch current user data
+      // Fetch current user data (includes permissions from backend)
       const user = await authApi.getCurrentUser()
 
-      return { ...loginResponse, user }
+      return user
     },
-    onSuccess: (data) => {
+    onSuccess: (user) => {
       // Set user in store
-      setUser(data.user)
+      setUser(user)
 
-      // Set permissions based on user role
-      const permissions: string[] = []
-      if (data.user.is_admin) {
-        permissions.push('users:read', 'users:write', 'users:delete')
-      }
+      // Set permissions from backend (already computed by backend)
+      // Backend sends all effective permissions (role + custom)
+      const permissions = user.permissions || []
       setPermissions(permissions)
 
       toast.success(i18n.t('auth.loginSuccess'))

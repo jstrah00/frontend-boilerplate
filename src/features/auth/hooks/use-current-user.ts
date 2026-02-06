@@ -9,7 +9,7 @@ export function useCurrentUser() {
   const query = useQuery({
     queryKey: ['current-user'],
     queryFn: () => authApi.getCurrentUser(),
-    enabled: isAuthenticated || !!localStorage.getItem('access_token'),
+    enabled: isAuthenticated,
     retry: false,
   })
 
@@ -17,11 +17,8 @@ export function useCurrentUser() {
     if (query.data) {
       setUser(query.data)
 
-      // Set permissions based on user data
-      const permissions: string[] = []
-      if (query.data.is_admin) {
-        permissions.push('users:read', 'users:write', 'users:delete')
-      }
+      // Set permissions from backend (already computed)
+      const permissions = query.data.permissions || []
       setPermissions(permissions)
     }
   }, [query.data, setUser, setPermissions])

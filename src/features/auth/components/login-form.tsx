@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Checkbox } from '@/components/ui/checkbox'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { loginSchema, LoginFormData } from '../schemas/login.schema'
 import { useLogin } from '../hooks/use-login'
@@ -51,6 +52,16 @@ export function LoginForm() {
             {errors.password && (
               <p className="text-sm text-destructive">{errors.password.message}</p>
             )}
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <Checkbox id="remember_me" {...register('remember_me')} />
+            <Label
+              htmlFor="remember_me"
+              className="text-sm font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              {t('auth.rememberMe')}
+            </Label>
           </div>
 
           <Button type="submit" className="w-full" disabled={login.isPending}>

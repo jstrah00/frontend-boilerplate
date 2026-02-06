@@ -12,27 +12,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   useEffect(() => {
     const initAuth = async () => {
-      const token = localStorage.getItem("access_token")
+      try {
+        // Try to fetch current user (auth via HttpOnly cookies)
+        // If cookies are valid, this will succeed
+        const user = await authApi.getCurrentUser()
+        setUser(user)
 
-      if (token) {
-        try {
-          // Try to fetch current user with existing token
-          const user = await authApi.getCurrentUser()
-          setUser(user)
-
-          // Set permissions based on user role
-          const permissions: string[] = []
-          if (user.is_admin) {
-            permissions.push("users:read", "users:write", "users:delete")
-          }
-          setPermissions(permissions)
-        } catch (error) {
-          // Token is invalid, clear it
-          localStorage.removeItem("access_token")
-          localStorage.removeItem("refresh_token")
-          setUser(null)
-          setPermissions([])
-        }
+        // Set permissions from backend (already computed)
+        const permissions = user.permissions || []
+        setPermissions(permissions)
+      } catch (error) {
+        // No valid session - cookies expired or don't exist
+        // Backend handles cookie cleanup
+        setUser(null)
+        setPermissions([])
       }
 
       setIsLoading(false)

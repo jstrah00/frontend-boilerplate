@@ -12,11 +12,8 @@ export function useLogout() {
   return useMutation({
     mutationFn: () => authApi.logout(),
     onSuccess: () => {
-      // Clear token from localStorage
-      localStorage.removeItem('access_token')
-      localStorage.removeItem('refresh_token')
-
-      // Clear auth state
+      // Backend clears HttpOnly cookies
+      // Clear auth state in store
       logout()
 
       toast.success(i18n.t('auth.logoutSuccess'))
@@ -24,8 +21,7 @@ export function useLogout() {
     },
     onError: () => {
       // Clear local state even if backend fails
-      localStorage.removeItem('access_token')
-      localStorage.removeItem('refresh_token')
+      // (cookies are handled by backend)
       logout()
       navigate('/login')
     },
