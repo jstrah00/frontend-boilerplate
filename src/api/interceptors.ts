@@ -3,23 +3,6 @@ import { apiClient } from './client'
 import { toast } from 'sonner'
 import { debugLog, debugError } from '@/lib/debug'
 
-let isRefreshing = false
-let failedQueue: Array<{
-  resolve: (value?: unknown) => void
-  reject: (reason?: unknown) => void
-}> = []
-
-const processQueue = (error: Error | null = null) => {
-  failedQueue.forEach((prom) => {
-    if (error) {
-      prom.reject(error)
-    } else {
-      prom.resolve()
-    }
-  })
-  failedQueue = []
-}
-
 // Request interceptor
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
@@ -56,6 +39,12 @@ apiClient.interceptors.response.use(
     // With HttpOnly cookies, the backend automatically tries to refresh the token
     // If we get a 401, it means refresh failed and user needs to login again
     if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
+      // Don't redirect if already on login page (prevents infinite loop)
+      const isOnLoginPage = window.location.pathname === '/login'
+      if (isOnLoginPage) {
+        return Promise.reject(error)
+      }
+
       debugLog('[Interceptor] 401 error - session expired, redirecting to login')
 
       // Prevent retry loops

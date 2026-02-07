@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
@@ -16,9 +16,13 @@ export function LoginForm() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+      remember_me: false,
+    },
   })
 
   const onSubmit = (data: LoginFormData) => {
@@ -55,7 +59,17 @@ export function LoginForm() {
           </div>
 
           <div className="flex items-center space-x-2">
-            <Checkbox id="remember_me" {...register('remember_me')} />
+            <Controller
+              name="remember_me"
+              control={control}
+              render={({ field }) => (
+                <Checkbox
+                  id="remember_me"
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              )}
+            />
             <Label
               htmlFor="remember_me"
               className="text-sm font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
