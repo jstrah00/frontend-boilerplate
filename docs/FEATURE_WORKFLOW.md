@@ -1,5 +1,7 @@
 # Frontend Feature Development Workflow
 
+> **⚠️ Note (2026-02-06)**: Auth examples that show `<Can perform="...">` or `localStorage.getItem('token')` predate the cookie migration. Real patterns: `usePermissions()` hook + `<ProtectedRoute requiredPermissions={[...]}>`; httpOnly cookies via `withCredentials: true`. See `frontend/CLAUDE.md` for source of truth. Non-auth steps in this guide (CRUD scaffolding, form/Zod patterns, query/mutation flow) are still accurate.
+
 Step-by-step guide for implementing features in this React + TypeScript frontend.
 
 ## Table of Contents

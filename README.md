@@ -138,24 +138,25 @@ VITE_DEFAULT_LANGUAGE=en
 
 The boilerplate includes a complete authentication system:
 
-1. Login with email and password
-2. JWT tokens stored in localStorage (access_token, refresh_token)
-3. Automatic token refresh on 401 responses
-4. Protected routes requiring authentication
-5. Permission-based access control (currently based on is_admin flag)
+1. Login with email and password (`POST /api/v1/auth/login`).
+2. JWT access + refresh tokens delivered as httpOnly cookies — JS does not touch them. Migrated from localStorage on 2026-02-06.
+3. On 401 the axios interceptor (`src/api/interceptors.ts`) redirects to `/login`. Refresh-token rotation is handled server-side via the cookie; there is no client-side auto-refresh.
+4. Protected routes requiring authentication.
+5. Permission-based access control. Permissions arrive from the backend in `user.permissions` (string array, computed by RBAC) and are stored in Zustand (`src/store/slices/authSlice.ts`).
 
 ### Usage Example
 
 ```tsx
 // Protect a route
 <ProtectedRoute requiredPermissions={['users:read']}>
- <UsersPage />
+  <UsersPage />
 </ProtectedRoute>
 
-// Permission-based rendering
-<Can perform="users:write">
- <Button>Create User</Button>
-</Can>
+// Permission-based rendering — use the usePermissions() hook (no <Can> component)
+import { usePermissions } from '@/hooks/use-permissions'
+
+const { hasPermission } = usePermissions()
+{hasPermission('users:write') && <Button>Create User</Button>}
 ```
 
 ## State Management

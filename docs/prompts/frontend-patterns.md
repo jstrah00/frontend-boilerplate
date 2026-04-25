@@ -1,7 +1,9 @@
 # Frontend Patterns - Complete Reference
 
+> **⚠️ Note (2026-02-06)**: Auth code examples that show `localStorage.getItem('token')`, manual `Authorization: Bearer ...`, client-side refresh, or `<Can perform="...">` predate the cookie migration. Real flow: httpOnly cookies (`withCredentials: true`); 401 → `/login`; permission gating via `usePermissions()`. See `frontend/CLAUDE.md` for source of truth. Treat auth code blocks here as historical illustration. Non-auth patterns (TanStack Query, Zustand, forms, routing, i18n, styling) remain accurate.
+
 All patterns, conventions, and examples for this React + TypeScript frontend.
-This is the detailed reference - the main CLAUDE.md is kept short (<200 lines).
+This is the detailed reference - the main CLAUDE.md is kept short.
 
 ## Table of Contents
 - [Component Patterns](#component-patterns)

@@ -1,5 +1,7 @@
 # Frontend Feature Examples
 
+> **⚠️ Note (2026-02-06)**: `<Can perform="...">` examples below predate the cookie migration. The component never existed in this codebase; real pattern is `usePermissions()` hook from `@/hooks/use-permissions` (e.g. `{hasPermission('products:write') && <Button>Edit</Button>}`). See `frontend/CLAUDE.md` for the current auth + permission model.
+
 Real-world examples of implementing features in this React + TypeScript frontend.
 
 ## Table of Contents

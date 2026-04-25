@@ -92,14 +92,16 @@ If you see "Network Error" or "Blocked by DevTools":
 
 ## Issue: Session Not Persisting
 
+Auth runs over httpOnly cookies (since 2026-02-06), not localStorage. JS cannot read them.
+
 If you're logged out after refreshing the page:
 
-1. Check browser console for errors during auth initialization
-2. Verify localStorage has `access_token`:
- - Open DevTools → Application/Storage → Local Storage
- - Look for `access_token` key
-3. If token exists but auth fails, the token might be expired
-4. Clear localStorage and login again
+1. Check browser console for errors during auth initialization.
+2. DevTools → Application → Cookies → `http://localhost:8000`. Look for `access_token` and `refresh_token` cookies.
+   - If missing: backend rejected the login or the cookies expired. Re-login.
+   - If present but request still 401: cookie domain or `samesite` mismatch (check `COOKIE_SECURE`, `COOKIE_SAMESITE`, `COOKIE_DOMAIN` in `backend/.env`).
+3. Verify the request includes credentials: Network tab → Request → cookies should appear. If not, `withCredentials: true` is missing somewhere (it's already set on `apiClient`; check that no fetch bypasses it).
+4. Clear cookies + login again.
 
 ## Issue: Theme Toggle Not Working
 
