@@ -126,20 +126,30 @@ const form = useForm({
 **Don't handle 401 in components — the interceptor owns it. Don't read tokens from `document.cookie` or `localStorage` — they don't exist there.**
 
 ### Routing & Permissions
+
+Three complementary primitives, all reading the same Zustand permission list (`src/store/slices/authSlice.ts`). Pick by surface:
+
 ```typescript
-// Protected route (src/routes/protected-route.tsx)
+// Route gate (src/routes/protected-route.tsx)
 <ProtectedRoute requiredPermissions={['users:read']}>
   <UsersPage />
 </ProtectedRoute>
 
-// Permission check inside a component
+// JSX gate (src/components/can.tsx) — show/hide branches inside a component
+import { Can } from '@/components/can'
+
+<Can perform="users:write">
+  <Button>Create</Button>
+</Can>
+
+// Programmatic check (src/hooks/use-permissions.ts) — for hooks/handlers
 import { usePermissions } from '@/hooks/use-permissions'
 
 const { hasPermission, hasAllPermissions, hasAnyPermission } = usePermissions()
-{hasPermission('users:write') && <Button>Create</Button>}
+if (hasPermission('users:write')) { ... }
 ```
 
-There is **no `<Can>` component** — use the `usePermissions()` hook. Permissions arrive from the backend in `user.permissions` (string array, computed by RBAC) and are stored in Zustand (`src/store/slices/authSlice.ts`); see `src/features/auth/hooks/use-login.ts` and `use-current-user.ts` for where they're set.
+Permissions arrive from the backend in `user.permissions` (string array, computed by RBAC); see `src/features/auth/hooks/use-login.ts` and `use-current-user.ts` for where they're set. Avoid hand-rolling `user.permissions.includes(...)` checks when one of the three primitives would fit.
 
 ### i18n
 ```typescript
