@@ -7,7 +7,7 @@ Production-ready React SPA integrated with FastAPI backend.
 SPA consuming FastAPI REST API:
 - Frontend: Port 5173 (dev), Port 80 (prod)
 - Backend API: Port 8000 (VITE_API_BASE_URL)
-- Auth: JWT with auto-refresh via localStorage
+- Auth: JWT in **httpOnly cookies** (since 2026-02-06). Browser sends them automatically via `withCredentials: true`. JS does not touch tokens.
 
 ## Tech Stack
 
@@ -118,29 +118,28 @@ const form = useForm({
 
 ### Auth Flow
 
-1. Login → tokens stored in localStorage
-2. Request interceptor adds `Authorization: Bearer {token}`
-3. Response interceptor catches 401 → auto-refresh
-4. If refresh fails → logout + redirect to /login
+1. Login (`POST /api/v1/auth/login`) → backend sets httpOnly + secure + samesite cookies (access ~30 min, refresh 7 d / 30 d "remember me").
+2. Axios `apiClient` is configured with `withCredentials: true` — cookies travel automatically. No `Authorization` header is set client-side.
+3. On 401 the response interceptor (`src/api/interceptors.ts`) redirects to `/login`. **There is no client-side auto-refresh** — the backend rotates refresh tokens via cookies; if it fails, the user re-authenticates.
+4. On 403 the interceptor redirects to `/unauthorized`.
 
-**Token refresh is automatic - don't handle 401 manually!**
+**Don't handle 401 in components — the interceptor owns it. Don't read tokens from `document.cookie` or `localStorage` — they don't exist there.**
 
 ### Routing & Permissions
 ```typescript
-// Protected route
+// Protected route (src/routes/protected-route.tsx)
 <ProtectedRoute requiredPermissions={['users:read']}>
- <UsersPage />
+  <UsersPage />
 </ProtectedRoute>
 
-// Permission check in component
-<Can perform="users:write">
- <Button>Create</Button>
-</Can>
+// Permission check inside a component
+import { usePermissions } from '@/hooks/use-permissions'
+
+const { hasPermission, hasAllPermissions, hasAnyPermission } = usePermissions()
+{hasPermission('users:write') && <Button>Create</Button>}
 ```
 
-**Note:** Permissions are currently hardcoded based on `is_admin` flag.
-Update `use-login.ts`, `use-current-user.ts`, and `auth-provider.tsx`
-when backend sends permissions directly.
+There is **no `<Can>` component** — use the `usePermissions()` hook. Permissions arrive from the backend in `user.permissions` (string array, computed by RBAC) and are stored in Zustand (`src/store/slices/authSlice.ts`); see `src/features/auth/hooks/use-login.ts` and `use-current-user.ts` for where they're set.
 
 ### i18n
 ```typescript
@@ -171,7 +170,7 @@ See: `docs/FEATURE_WORKFLOW.md` (in frontend directory)
 
 ## Integration with Backend
 
-Backend at http://localhost:8000 | API base /api | Endpoints /v1/* | OpenAPI /openapi.json | Auth: JWT in localStorage
+Backend at http://localhost:8000 | API base /api | Endpoints /v1/* | OpenAPI /openapi.json | Auth: JWT in httpOnly cookies (`withCredentials: true`)
 
 ## Environment Variables
 
@@ -198,3 +197,12 @@ Auth: `src/features/auth/` | CRUD: `src/features/items/` | Admin: `src/features/
 - Full patterns: `docs/prompts/frontend-patterns.md`
 - Workflow guide: `docs/FEATURE_WORKFLOW.md` (frontend-specific)
 - Examples: `docs/prompts/EXAMPLE_USAGE.md`
+
+### Project-level docs (super-repo)
+
+When the frontend is mounted as a submodule of `saas-boilerplate`, additional cross-cutting docs live one level up:
+
+- `../docs/audits/` — point-in-time audits (latest covers AI config + code patterns + severity-ranked findings).
+- `../docs/plans/` — multi-step implementation plans (e.g. the alignment plan that produced this file's last refresh).
+- `../docs/gotchas.md` — running log of real incidents.
+- `../.claude/rules/frontend-api.md` — path-scoped rules for the API layer (generated types, apiClient, httpOnly cookies, query keys).
