@@ -22,14 +22,9 @@ npm run lint # ESLint (max-warnings=0)
 npm run generate:types # Generate types from backend OpenAPI
 ```
 
-## Claude Code Skills (Use with @skill-name)
-- `/react-component` - Create TypeScript component with Tailwind and shadcn/ui
-- `/react-form` - Create form with Zod validation and react-hook-form
-- `/api-integration` - Create API integration with TanStack Query hooks
-- `/react-feature` - Complete feature with API, hooks, components, and pages
-- `/react-page` - Create page component and add to routing
+## Claude Code Skills
 
-**IMPORTANT**: Always invoke relevant skill when creating features - they contain boilerplate-specific patterns.
+Frontend skills live under `.claude/skills/` and are autodetected by Claude Code. Full index with descriptions: `../docs/SKILLS_REFERENCE.md`. Always invoke the relevant `/skill-name` when creating features — they encode boilerplate-specific patterns.
 
 ## Project Structure
 ```
