@@ -113,16 +113,18 @@ const form = useForm({
 
 ### Auth Flow
 
-1. Login (`POST /api/v1/auth/login`) → backend sets httpOnly + secure + samesite cookies (access ~30 min, refresh 7 d / 30 d "remember me").
-2. Axios `apiClient` is configured with `withCredentials: true` — cookies travel automatically. No `Authorization` header is set client-side.
-3. On 401 the response interceptor (`src/api/interceptors.ts`) redirects to `/login`. **There is no client-side auto-refresh** — the backend rotates refresh tokens via cookies; if it fails, the user re-authenticates.
-4. On 403 the interceptor redirects to `/unauthorized`.
+httpOnly cookies, sent by `apiClient` (`src/api/client.ts`) via `withCredentials: true`. The 401/403 redirects live in `src/api/interceptors.ts`.
 
-**Don't handle 401 in components — the interceptor owns it. Don't read tokens from `document.cookie` or `localStorage` — they don't exist there.**
+**Frontend gotchas (the interceptor owns it):**
+- Don't handle 401 in components — `src/api/interceptors.ts` redirects to `/login`.
+- Don't read tokens from `document.cookie` or `localStorage` — they're httpOnly.
+- No client-side auto-refresh. If the access cookie expires, the user re-authenticates.
+
+**Full flow + token structure + refresh mechanics**: `../docs/ARCHITECTURE.md` § Authentication Flow.
 
 ### Routing & Permissions
 
-Three complementary primitives, all reading the same Zustand permission list (`src/store/slices/authSlice.ts`). Pick by surface:
+Three primitives, all reading the same Zustand permission list (`src/store/slices/authSlice.ts`):
 
 ```typescript
 // Route gate (src/routes/protected-route.tsx)
@@ -130,21 +132,21 @@ Three complementary primitives, all reading the same Zustand permission list (`s
   <UsersPage />
 </ProtectedRoute>
 
-// JSX gate (src/components/can.tsx) — show/hide branches inside a component
+// JSX gate (src/components/can.tsx)
 import { Can } from '@/components/can'
 
 <Can perform="users:write">
   <Button>Create</Button>
 </Can>
 
-// Programmatic check (src/hooks/use-permissions.ts) — for hooks/handlers
+// Programmatic (src/hooks/use-permissions.ts) — for hooks/handlers
 import { usePermissions } from '@/hooks/use-permissions'
 
 const { hasPermission, hasAllPermissions, hasAnyPermission } = usePermissions()
 if (hasPermission('users:write')) { ... }
 ```
 
-Permissions arrive from the backend in `user.permissions` (string array, computed by RBAC); see `src/features/auth/hooks/use-login.ts` and `use-current-user.ts` for where they're set. Avoid hand-rolling `user.permissions.includes(...)` checks when one of the three primitives would fit.
+Permissions arrive from the backend in `user.permissions` and are set by `src/features/auth/hooks/use-login.ts` + `use-current-user.ts`. Avoid hand-rolling `user.permissions.includes(...)` — pick a primitive. **Why the three exist + RBAC backend side**: `../docs/ARCHITECTURE.md` § Permission System.
 
 ### i18n
 ```typescript
